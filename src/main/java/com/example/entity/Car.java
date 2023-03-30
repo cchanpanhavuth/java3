@@ -21,7 +21,11 @@ public class Car extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "ManufacturerLocation_id")
-    private ManufacturerLocation ManufacturerLocation;
+    private ManufacturerLocation manufacturer_location;
+
+    @ManyToOne
+    @JoinColumn(name = "model_id")
+    private CarModel model_name;
 
     @ManyToOne
     @JoinColumn(name = "branch_name_id")
@@ -29,4 +33,12 @@ public class Car extends BaseEntity {
 
     @ManyToMany(mappedBy = "cars")
     private List<OrderDetail> orders;
+
+    @OneToOne
+    @JoinColumn(name = "inventory_id")
+    private Inventory inventory;
+
+    @ManyToOne
+    @JoinColumn(name = "car_features")
+    private CarFeatures features_id;
 }

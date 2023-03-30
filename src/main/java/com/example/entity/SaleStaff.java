@@ -15,8 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class SaleStaff extends BaseEntity {
-    private String staffName;
-    private String role;
+    private String first_name;
+    private String last_name;
+
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     @OneToMany(mappedBy = "orders")
     private List<OrderDetail> orders;

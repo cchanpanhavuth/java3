@@ -17,6 +17,8 @@ import java.util.List;
 public class OrderDetail extends BaseEntity {
 
     private Double totalPrice;
+    private int quantity;
+
 
     @ManyToMany
     @JoinTable( name = "order_car",
@@ -30,12 +32,9 @@ public class OrderDetail extends BaseEntity {
     private List<Car> cars;
 
     @ManyToOne
-    @JoinColumn(name = "customer_name")
-    private Customer orders_name;
+    @JoinColumn(name = "customer_id")
+    private Customer orders_id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_phone")
-    private Customer orders_phone;
 
     @ManyToOne
     @JoinColumn(name = "sales_staff")

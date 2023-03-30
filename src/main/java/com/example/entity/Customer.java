@@ -1,9 +1,7 @@
 package com.example.entity;
 
 import com.example.entity.mapperclass.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,15 +15,25 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Customer extends BaseEntity {
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
 
-    @Column(name = "Customer_Number", length = 100, nullable = false, unique = true)
-    private String phone;
+    @Column(name = "phone_number", length = 100, nullable = false, unique = true)
+    private String phoneNumber;
 
-    @OneToMany(mappedBy = "orders_name")
-    private List<OrderDetail> orders_name;
+    @OneToMany(mappedBy = "orders_id")
+    private List<OrderDetail> orders_id;
 
-    @OneToMany(mappedBy = "orders_phone")
-    private List<OrderDetail> orders_phone;
+    @ManyToMany
+    @JoinTable( name = "customer_pref",
+            joinColumns = @JoinColumn(
+                    name = "Customer_id" , referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "CarFeature_id" , referencedColumnName = "id"
+            )
+    )
+    private List<CarFeatures> carFeatures;
 
 }

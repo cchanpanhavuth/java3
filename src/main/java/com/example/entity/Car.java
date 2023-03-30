@@ -1,10 +1,7 @@
 package com.example.entity;
 
 import com.example.entity.mapperclass.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,13 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Car extends BaseEntity {
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand_name;
 
-    private String brand;
-    private String model;
-    private String year;
-    private String color;
-    private int stock;
-    private double price;
+    @ManyToOne
+    @JoinColumn(name = "ManufacturerLocation_id")
+    private ManufacturerLocation ManufacturerLocation;
 
     @ManyToOne
     @JoinColumn(name = "branch_name_id")

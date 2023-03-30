@@ -2,7 +2,6 @@ package com.example.entity;
 
 import com.example.entity.mapperclass.BaseEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,9 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class Inventory extends BaseEntity {
-    private int quantity;
+public class Category extends BaseEntity {
 
-    @OneToOne(mappedBy = "inventory")
-    private Car car;
+    private String categoryName;
+
+
 }

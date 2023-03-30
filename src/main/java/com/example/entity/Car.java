@@ -15,23 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Car extends BaseEntity {
-
-    private Double price;
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand_name;
 
     @ManyToOne
     @JoinColumn(name = "ManufacturerLocation_id")
-    private ManufacturerLocation manufacturer_location;
-
-    @ManyToOne
-    @JoinColumn(name = "carModel")
-    private CarModel model_name;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category_name;
+    private ManufacturerLocation ManufacturerLocation;
 
     @ManyToOne
     @JoinColumn(name = "branch_name_id")
@@ -39,19 +29,4 @@ public class Car extends BaseEntity {
 
     @ManyToMany(mappedBy = "cars")
     private List<OrderDetail> orders;
-
-    @OneToOne
-    @JoinColumn(name = "inventory_id")
-    private Inventory inventory;
-
-    @ManyToOne
-    @JoinColumn(name = "car_features")
-    private CarFeatures features_id;
-
-    @PreRemove
-    private void removeOrdersFromCar() {
-        for (OrderDetail od : orders) {
-            od.getCars().remove(this);
-        }
-    }
 }

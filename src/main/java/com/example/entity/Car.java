@@ -15,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Car extends BaseEntity {
+
+    private Double price;
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand_name;
@@ -24,7 +26,7 @@ public class Car extends BaseEntity {
     private ManufacturerLocation manufacturer_location;
 
     @ManyToOne
-    @JoinColumn(name = "model_id")
+    @JoinColumn(name = "carModel")
     private CarModel model_name;
 
     @ManyToOne

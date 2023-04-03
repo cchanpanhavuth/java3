@@ -1,7 +1,10 @@
 package com.example.entity;
 
 import com.example.entity.mapperclass.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,21 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Car extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = "brand_id")
-    private Brand brand_name;
 
-    @ManyToOne
-    @JoinColumn(name = "ManufacturerLocation_id")
-    private ManufacturerLocation manufacturer_location;
-
-    @ManyToOne
-    @JoinColumn(name = "model_id")
-    private CarModel model_name;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category_name;
+    private String brand;
+    private String model;
+    private String year;
+    private String color;
+    private int stock;
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "branch_name_id")
@@ -37,12 +32,4 @@ public class Car extends BaseEntity {
 
     @ManyToMany(mappedBy = "cars")
     private List<OrderDetail> orders;
-
-    @OneToOne
-    @JoinColumn(name = "inventory_id")
-    private Inventory inventory;
-
-    @ManyToOne
-    @JoinColumn(name = "car_features")
-    private CarFeatures features_id;
 }

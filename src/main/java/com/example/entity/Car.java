@@ -47,4 +47,11 @@ public class Car extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "car_features")
     private CarFeatures features_id;
+
+    @PreRemove
+    private void removeOrdersFromCar() {
+        for (OrderDetail od : orders) {
+            od.getCars().remove(this);
+        }
+    }
 }

@@ -86,7 +86,8 @@ public class CarController {
         car.setPrice(req.getPrice());
         car.setCategory_name(category);
         this.carService.add(car);
-        return car;
+        return null;
+        //return car;
     }
 
     @PutMapping

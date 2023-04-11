@@ -1,10 +1,16 @@
 package com.example.service.impl;
 
 import com.example.entity.Category;
+import com.example.entity.projection.CategoryProjection;
+import com.example.entity.response.Pagination;
 import com.example.repository.CategoryRepository;
 import com.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -45,5 +51,24 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findById(Long id) {
         return this.categoryRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public CategoryProjection findByCategoryName(String name) {
+        return this.categoryRepository.findByCategoryName(name).orElse(null);
+    }
+
+    @Override
+    public List<CategoryProjection> findAll() {
+        return categoryRepository.findAllBy();
+    }
+
+    @Override
+    public List<CategoryProjection> findCategoryProjectionAll(Pagination pagination) {
+        Page<CategoryProjection> cate = categoryRepository.findAllCategoryProjectionBy(
+                PageRequest.of(pagination.getPage()-1, pagination.getSize())
+        );
+        pagination.setTotalCounts(cate.getTotalElements());
+        return cate.getContent() ;
     }
 }

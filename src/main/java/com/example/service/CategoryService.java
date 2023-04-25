@@ -1,6 +1,10 @@
 package com.example.service;
 
 import com.example.entity.Category;
+import com.example.entity.projection.CategoryProjection;
+import com.example.entity.response.Pagination;
+
+import java.util.List;
 
 public interface CategoryService {
     Category add(Category category);
@@ -8,6 +12,13 @@ public interface CategoryService {
     boolean deleteById(Long id);
 
     Category findById(Long id);
+
+
+    CategoryProjection findByCategoryName(String categoryName);
+
+    List<CategoryProjection> findAllCategory();
+
+    List<CategoryProjection> findCategoryProjectionAll(Pagination pagination);
 }
 
 

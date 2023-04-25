@@ -1,6 +1,7 @@
 package com.example.entity;
 
 import com.example.entity.mapperclass.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
@@ -19,4 +20,7 @@ public class CarModel extends BaseEntity {
     private String model_name;
     @OneToMany(mappedBy = "carModel")
     private List<Car> carModel;
+
+    @Column(name = "name", length = 100, nullable = false, unique = true)
+    private String name;
 }

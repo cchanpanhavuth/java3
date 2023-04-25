@@ -27,6 +27,23 @@ public class Car extends BaseEntity {
     @JoinColumn(name = "branch_name_id")
     private Branch branch_name;
 
+
+    @OneToOne
+    @JoinColumn(name = "inventory_id")
+    private Inventory inventory;
+
+    @ManyToOne
+    @JoinColumn(name = "car_features")
+    private CarFeatures features_id;
+
+    @PreRemove
+    private void removeOrdersFromCar() {
+        for (OrderDetail od : orders) {
+            od.getCars().remove(this);
+        }
+    }
+
     @OneToMany(mappedBy = "cars", cascade=CascadeType.ALL, orphanRemoval = true)
     List<OrderDetail> orderDetailsList;
+
 }

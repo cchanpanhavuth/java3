@@ -1,10 +1,7 @@
 package com.example.entity;
 
 import com.example.entity.mapperclass.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table
 
 public class CarFeatures extends BaseEntity {
     private String featureDescription;
@@ -26,5 +24,13 @@ public class CarFeatures extends BaseEntity {
 
     @ManyToMany(mappedBy = "carFeatures")
     private List<Customer> customers;
+
+
+    @PreRemove
+    private void removeCustomerFromCarFeature() {
+        for (Customer c : customers) {
+            c.getCarFeatures().remove(this);
+        }
+    }
 
 }

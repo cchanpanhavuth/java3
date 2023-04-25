@@ -2,14 +2,21 @@ package com.example.controller;
 
 import com.example.entity.*;
 import com.example.entity.Car;
+import com.example.entity.projection.CarFeaturesProjection;
+import com.example.entity.projection.CarProjection;
 import com.example.entity.request.CarAddRequest;
 import com.example.entity.request.CarUpdateRequest;
+import com.example.entity.response.Pagination;
 import com.example.service.CarFeaturesService;
 import com.example.service.CarModelService;
 import com.example.service.CarService;
 import com.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/car")
@@ -86,7 +93,8 @@ public class CarController {
         car.setPrice(req.getPrice());
         car.setCategory_name(category);
         this.carService.add(car);
-        return car;
+        return null;
+        //return car;
     }
 
     @PutMapping
@@ -137,6 +145,31 @@ public class CarController {
     public boolean delete(@PathVariable Long id){
         return this.carService.deleteById(id);
     }
+
+    @GetMapping("/price/{price}")
+    public CarProjection findByCarPrice(@PathVariable Double price){
+        return this.carService.findByCarPrice(price);
+    }
+
+    @GetMapping("/all")
+    public Map<String, Object> findAllCar(Pagination pagination){
+        List<CarProjection> car = this.carService.findCarProjectionAll(pagination);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", car);
+        map.put("pagination", pagination);
+        return map;
+    }
+
+    @GetMapping
+    public List<CarProjection> findByPrice(){
+        return this.carService.findAllCar();
+    }
+
+    @PostMapping
+    public CarFeatures add(@RequestBody CarFeatures carFeatures){
+        return this.carFeaturesService.add(carFeatures);
+    }
+
 
 
 }

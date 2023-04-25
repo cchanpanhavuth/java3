@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface CarModelRepository extends JpaRepository<CarModel, Long> {
-    Optional<CarModelProjection> findByName(String name);
-    List<CarModelProjection> findAllBy();
+    Optional<CarModelProjection> findCarModelByName(String name);
+    List<CarModelProjection> findAllCarModelBy();
 
-    Page<CarModelProjection> findAllCategoryProjectionBy(Pageable pageable);
+    Page<CarModelProjection> findAllCarModelProjectionBy(Pageable pageable);
 
 }

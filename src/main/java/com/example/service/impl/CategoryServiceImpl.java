@@ -54,13 +54,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryProjection findByCategoryName(String name) {
-        return this.categoryRepository.findByCategoryName(name).orElse(null);
+    public CategoryProjection findByCategoryName(String categoryName) {
+        return this.categoryRepository.findByCategoryName(categoryName).orElse(null);
     }
 
     @Override
-    public List<CategoryProjection> findAll() {
-        return categoryRepository.findAllBy();
+    public List<CategoryProjection> findAllCategory() {
+        return categoryRepository.findAllCategoryBy();
     }
 
     @Override

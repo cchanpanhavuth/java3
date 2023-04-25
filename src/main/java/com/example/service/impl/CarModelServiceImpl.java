@@ -1,10 +1,17 @@
 package com.example.service.impl;
 
 import com.example.entity.CarModel;
+import com.example.entity.projection.CarModelProjection;
+import com.example.entity.projection.CategoryProjection;
+import com.example.entity.response.Pagination;
 import com.example.repository.CarModelRepository;
 import com.example.service.CarModelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CarModelServiceImpl implements CarModelService {
@@ -45,4 +52,26 @@ public class CarModelServiceImpl implements CarModelService {
     public CarModel findById(Long id) {
         return this.carModelRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public CarModelProjection findCarModelByName(String name) {
+        return this.carModelRepository.findCarModelByName(name).orElse(null);
+    }
+
+    @Override
+    public List<CarModelProjection> findAllCarModel() {
+        return carModelRepository.findAllCarModelBy();
+    }
+
+    @Override
+    public List<CarModelProjection> findCarModelProjectionAll(Pagination pagination) {
+        Page<CarModelProjection> carmo = carModelRepository.findAllCarModelProjectionBy(
+                PageRequest.of(pagination.getPage()-1, pagination.getSize())
+        );
+        pagination.setTotalCounts(carmo.getTotalElements());
+        return carmo.getContent() ;
+    }
+
 }
+
+

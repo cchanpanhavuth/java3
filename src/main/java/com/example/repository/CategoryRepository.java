@@ -13,8 +13,8 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    Optional<CategoryProjection> findByCategoryName(String name);
-    List<CategoryProjection> findAllBy();
+    Optional<CategoryProjection> findByCategoryName(String categoryName);
+    List<CategoryProjection> findAllCategoryBy();
 
     Page<CategoryProjection> findAllCategoryProjectionBy(Pageable pageable);
 

@@ -12,9 +12,9 @@ public interface CarModelService {
     CarModel update(CarModel carModel);
     boolean deleteById(Long id);
     CarModel findById(Long id);
-    CarModelProjection findByName(String name);
+    CarModelProjection findCarModelByName(String name);
 
-    List<CarModelProjection> findAll();
+    List<CarModelProjection> findAllCarModel();
 
     List<CarModelProjection> findCarModelProjectionAll(Pagination pagination);
 }

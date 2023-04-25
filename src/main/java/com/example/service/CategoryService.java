@@ -14,9 +14,9 @@ public interface CategoryService {
     Category findById(Long id);
 
 
-    CategoryProjection findByCategoryName(String name);
+    CategoryProjection findByCategoryName(String categoryName);
 
-    List<CategoryProjection> findAll();
+    List<CategoryProjection> findAllCategory();
 
     List<CategoryProjection> findCategoryProjectionAll(Pagination pagination);
 }

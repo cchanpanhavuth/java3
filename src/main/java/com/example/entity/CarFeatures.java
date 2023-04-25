@@ -26,4 +26,5 @@ public class CarFeatures extends BaseEntity {
 
     @ManyToMany(mappedBy = "carFeatures")
     private List<Customer> customers;
+
 }

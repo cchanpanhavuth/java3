@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table
 
 public class CarFeatures extends BaseEntity {
     private String featureDescription;

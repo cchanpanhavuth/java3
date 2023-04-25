@@ -23,7 +23,7 @@ public class CarModelRestController {
 
     @GetMapping("/name/{name}")
     public CarModelProjection findByName(@PathVariable String name){
-        return this.CarmodelService.findByName(name);
+        return this.CarmodelService.findCarModelByName(name);
     }
 
     @GetMapping("/all")
@@ -37,7 +37,7 @@ public class CarModelRestController {
 
     @GetMapping
     public List<CarModelProjection> findByName(){
-        return this.CarmodelService.findAll();
+        return this.CarmodelService.findAllCarModel();
     }
 
     @PostMapping

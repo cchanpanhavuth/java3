@@ -20,7 +20,7 @@ public class CategoryRestController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/CategoryName/{CategoryName}")
+    @GetMapping("/categoryName/{categoryName}")
     public CategoryProjection findByCategoryName(@PathVariable String categoryName){
         return this.categoryService.findByCategoryName(categoryName);
     }
@@ -36,7 +36,7 @@ public class CategoryRestController {
 
     @GetMapping
     public List<CategoryProjection> findByCategoryName(){
-        return this.categoryService.findAll();
+        return this.categoryService.findAllCategory();
     }
 
     @PostMapping

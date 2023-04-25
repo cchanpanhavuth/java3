@@ -5,4 +5,6 @@ public interface CarModelProjection {
 
     Long getId();
     String getName();
+
+
 }

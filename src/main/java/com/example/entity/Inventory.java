@@ -16,7 +16,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Inventory extends BaseEntity {
-    private int quantity;
+    private Integer quantity;
+    private Double importPrice;
 
     @OneToOne(mappedBy = "inventory")
     private Car car;

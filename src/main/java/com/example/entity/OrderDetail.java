@@ -15,28 +15,19 @@ import java.util.List;
 @Builder
 @Entity
 public class OrderDetail extends BaseEntity {
-
-    private Double totalPrice;
-    private int quantity;
-
-
-    @ManyToMany
-    @JoinTable( name = "order_car",
-            joinColumns = @JoinColumn(
-                    name = "orderDetail_id" , referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "car_id" , referencedColumnName = "id"
-            )
-    )
-    private List<Car> cars;
-
+    @Column(name = "Unit_Price", nullable = false)
+    private Double unitPrice;
+    @Column(name = "Quantity", nullable = false)
+    private Integer quantity;
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer orders_id;
-
-
+    @JoinColumn(name= "order_id")
+    private OrderCars orderCars;
     @ManyToOne
-    @JoinColumn(name = "sales_staff")
-    private SaleStaff orders;
+    @JoinColumn(name = "car_id")
+    private Car cars;
+
+
+
+
+
 }

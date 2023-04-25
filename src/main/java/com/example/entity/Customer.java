@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.example.entity.enums.GenderEnum;
 import com.example.entity.mapperclass.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,15 +16,21 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Customer extends BaseEntity {
+    @Column(name = "firstName", nullable = false)
     private String firstName;
+    @Column(name = "lastName", nullable = false)
     private String lastName;
+    @Column(name = "gender" , length = 100, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GenderEnum genderEnum;
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phone_number", length = 100, nullable = false, unique = true)
+    @Column(name = "phoneNumber", length = 100, nullable = false, unique = true)
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "orders_id")
-    private List<OrderDetail> orders_id;
+    @OneToMany(mappedBy = "customer")
+    private List<OrderCars> orderCars;
 
     @ManyToMany
     @JoinTable( name = "customer_pref",

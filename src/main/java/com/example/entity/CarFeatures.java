@@ -26,11 +26,4 @@ public class CarFeatures extends BaseEntity {
     private List<Customer> customers;
 
 
-    @PreRemove
-    private void removeCustomerFromCarFeature() {
-        for (Customer c : customers) {
-            c.getCarFeatures().remove(this);
-        }
-    }
-
 }

@@ -7,9 +7,9 @@ public interface CarProjection {
 
     Long getId();
     Double getPrice();
-    BrandProjection getBrand_name();
-    BranchProjection getBranch_name();
-    InventoryProjection getInventory();
+    //BrandProjection getBrand_name();
+    //BranchProjection getBranch_name();
+    //InventoryProjection getInventory();
     CarFeaturesProjection getFeatures_id();
 
 }

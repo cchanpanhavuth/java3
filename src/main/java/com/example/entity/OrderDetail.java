@@ -30,4 +30,8 @@ public class OrderDetail extends BaseEntity {
 
 
 
+
+
+
+
 }

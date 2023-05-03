@@ -23,6 +23,8 @@ public class Car extends BaseEntity {
     @JoinColumn(name = "branch_name_id")
     private Branch branch_name;
 
+
+
     @OneToMany(mappedBy = "cars", cascade=CascadeType.ALL, orphanRemoval = true)
     List<OrderDetail> orderDetailsList;
 

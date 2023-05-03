@@ -1,10 +1,10 @@
 package com.example.entity.request;
 
-import com.example.entity.Car;
 import lombok.Data;
 
 @Data
-public class InventoryReq {
+public class InventoryUpdateReq {
+    private Long id;
     private Integer quantity;
     private Double importPrice;
     private Long carID;

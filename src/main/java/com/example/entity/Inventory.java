@@ -19,6 +19,4 @@ public class Inventory extends BaseEntity {
     private Integer quantity;
     private Double importPrice;
 
-    @OneToOne(mappedBy = "inventory")
-    private Car car;
 }

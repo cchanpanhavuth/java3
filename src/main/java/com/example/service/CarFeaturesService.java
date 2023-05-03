@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.entity.CarFeatures;
+import com.example.entity.enums.StatusEnum;
 import com.example.entity.projection.CarFeaturesProjection;
 import com.example.entity.projection.CategoryProjection;
 import com.example.entity.response.Pagination;
@@ -12,11 +13,15 @@ public interface CarFeaturesService {
     CarFeatures update(CarFeatures carModel);
     boolean deleteById(Long id);
     CarFeatures findById(Long id);
-
+    CarFeaturesProjection findFeatureProjectionById(Long id);
 
     CarFeaturesProjection findCarFeaturesByFeatureDescription(String featureDescription);
 
     List<CarFeaturesProjection> findAllCarFeatures();
 
     List<CarFeaturesProjection> findCarFeaturesProjectionAll(Pagination pagination);
+    long countFeatureByStatus(StatusEnum statusEnum);
+
+    List<CarFeaturesProjection> findCarFeaturesProjectionByFeatureDescriptionContainingIgnoreCase(String featureDescription, Pagination pagination);
+
 }

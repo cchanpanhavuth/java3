@@ -19,9 +19,6 @@ import java.util.List;
 public class CarFeatures extends BaseEntity {
     private String featureDescription;
 
-    @OneToMany(mappedBy= "features_id")
-    private List<Car> cars;
-
     @ManyToMany(mappedBy = "carFeatures")
     private List<Customer> customers;
 

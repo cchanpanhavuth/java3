@@ -22,7 +22,7 @@ public class SaleStaff extends BaseEntity {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToMany(mappedBy = "orders")
-    private List<OrderDetail> orders;
+//    @OneToMany(mappedBy = "orders")
+//    private List<OrderDetail> orders;
 
 }

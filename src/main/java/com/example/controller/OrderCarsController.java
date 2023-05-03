@@ -28,14 +28,14 @@ public class OrderCarsController {
     @PostMapping
     public OrderCars add(@RequestBody OrderCarReq req){
         Customer customer = this.customerService.findById(req.getCustomer_id());
-        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());
-        if(customer == null || saleStaff == null){
-            System.out.println("Customer is not found!");
-            return null;
-        }
+//        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());
+//        if(customer == null || saleStaff == null){
+//            System.out.println("Customer is not found!");
+//            return null;
+//        }
         OrderCars orderCars = new OrderCars();
         orderCars.setCustomer(customer);
-        orderCars.setSaleStaff(saleStaff);
+//        orderCars.setSaleStaff(saleStaff);
         orderCars.setTotalAmount(req.getTotal());
         orderCars.setDiscount(req.getDiscount());
         this.orderCarsService.add(orderCars);
@@ -45,14 +45,14 @@ public class OrderCarsController {
     @PutMapping
     public OrderCars update(@RequestBody OrderCarsUpdate req){
         Customer customer = this.customerService.findById(req.getCustomer_id());
-        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());
-        if(customer == null || saleStaff == null){
-            System.out.println("Customer is not found!");
-            return null;
-        }
+//        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());
+//        if(customer == null || saleStaff == null){
+//            System.out.println("Customer is not found!");
+//            return null;
+//        }
         OrderCars orderCars = new OrderCars();
         orderCars.setCustomer(customer);
-        orderCars.setSaleStaff(saleStaff);
+//        orderCars.setSaleStaff(saleStaff);
         orderCars.setTotalAmount(req.getTotal());
         orderCars.setDiscount(req.getDiscount());
         this.orderCarsService.update(orderCars);

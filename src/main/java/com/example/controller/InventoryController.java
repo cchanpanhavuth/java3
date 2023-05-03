@@ -33,7 +33,7 @@ public class InventoryController{
         Inventory inventory = new Inventory();
         inventory.setQuantity(req.getQuantity());
         inventory.setImportPrice(req.getImportPrice());
-        inventory.setCar(car);
+//        inventory.setCar(car);
         this.inventoryService.add(inventory);
         return inventory;
     }
@@ -48,7 +48,7 @@ public class InventoryController{
         Inventory inventory = new Inventory();
         inventory.setQuantity(updateReq.getQuantity());
         inventory.setImportPrice(updateReq.getImportPrice());
-        inventory.setCar(car);
+//        inventory.setCar(car);
         this.inventoryService.update(inventory);
         return inventory;
     }

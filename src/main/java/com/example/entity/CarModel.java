@@ -19,5 +19,5 @@ import java.util.List;
 public class CarModel extends BaseEntity {
 
     @Column(name = "name", length = 100, nullable = false, unique = true)
-    private String model_name;
+    private String model;
 }

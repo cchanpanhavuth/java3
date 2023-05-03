@@ -10,6 +10,6 @@ public interface CarProjection {
     //BrandProjection getBrand_name();
     //BranchProjection getBranch_name();
     //InventoryProjection getInventory();
-    CarFeaturesProjection getFeatures_id();
+    //CarFeaturesProjection getFeatures_id();
 
 }

@@ -33,14 +33,14 @@ public class CarServiceImpl implements CarService {
             System.out.println("Product is not found!");
             return null;
         }
-        carToUpdate.setBrand_name(car.getBrand_name());
+//        carToUpdate.setBrand_name(car.getBrand_name());
         carToUpdate.setPrice(car.getPrice());
-        carToUpdate.setCategory_name(car.getCategory_name());
-        carToUpdate.setModel_name(car.getModel_name());
+//        carToUpdate.setCategory_name(car.getCategory_name());
+//        carToUpdate.setModel_name(car.getModel_name());
         carToUpdate.setBranch_name(car.getBranch_name());
-        carToUpdate.setInventory(car.getInventory());
-        carToUpdate.setFeatures_id(car.getFeatures_id());
-        carToUpdate.setManufacturer_location(car.getManufacturer_location());
+//        carToUpdate.setInventory(car.getInventory());
+//        carToUpdate.setFeatures_id(car.getFeatures_id());
+//        carToUpdate.setManufacturer_location(car.getManufacturer_location());
         return this.carRepository.save(carToUpdate);
     }
 

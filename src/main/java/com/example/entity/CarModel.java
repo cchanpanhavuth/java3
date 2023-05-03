@@ -17,10 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class CarModel extends BaseEntity {
-    private String model_name;
-    @OneToMany(mappedBy = "carModel")
-    private List<Car> carModel;
 
     @Column(name = "name", length = 100, nullable = false, unique = true)
-    private String name;
+    private String model_name;
 }

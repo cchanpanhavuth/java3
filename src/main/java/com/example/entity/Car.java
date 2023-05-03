@@ -28,8 +28,7 @@ public class Car extends BaseEntity {
     private Branch branch_name;
 
 
-    @OneToOne
-    @JoinColumn(name = "inventory_id")
+    @OneToOne(mappedBy = "car")
     private Inventory inventory;
 
     @ManyToOne
@@ -38,7 +37,7 @@ public class Car extends BaseEntity {
 
     @PreRemove
     private void removeOrdersFromCar() {
-        for (OrderDetail od : orders) {
+        for (OrderDetail od : orderDetailsList) {
             od.getCars().remove(this);
         }
     }

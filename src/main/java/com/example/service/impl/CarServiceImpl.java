@@ -51,9 +51,9 @@ public class CarServiceImpl implements CarService {
                         ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));
         try{
             if(!ObjectUtils.isEmpty(car)){
-//                carToUpdate.setPrice(car.getPrice());
-//                carToUpdate.setColor(car.getColor());
-//                carToUpdate.setYear(car.getYear());
+                carToUpdate.setPrice(car.getPrice());
+                carToUpdate.setColor(car.getColor());
+                carToUpdate.setYear(car.getYear());
 //                List<Car> carList = new ArrayList<>();
 //                List<Customer> customerList = new ArrayList<>();
 //                if(!ObjectUtils.isEmpty(carFeatures.getCars())){

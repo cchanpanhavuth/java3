@@ -55,7 +55,7 @@ public class CarModelServiceImpl implements CarModelService {
                         ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));
         try{
             if(!ObjectUtils.isEmpty(carModel)){
-//                modelToUpdate.setModel(carModel.getModel());
+                modelToUpdate.setModel(carModel.getModel());
             //    modelToUpdate.setName(carModel.getName());
 //                List<Car> carList = new ArrayList<>();
 //                if(!ObjectUtils.isEmpty(carModel.getCarModel())){

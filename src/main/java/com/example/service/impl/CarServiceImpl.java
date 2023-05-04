@@ -92,12 +92,7 @@ public class CarServiceImpl implements CarService {
         return false;
     }
 
-    @Override
-    public Car findById(Long id) {
 
-        return this.carRepository.findById(id).orElseThrow(() -> new NotFoundException(
-                ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));
-    }
 
     @Override
     public CarProjection findByPrice(Double price) {

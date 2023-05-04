@@ -38,23 +38,18 @@ public class CategoryRestController {
     }
 
     @GetMapping("/categoryName/{categoryName}")
-    public CategoryProjection findByCategoryName(@PathVariable String categoryName){
-        return this.categoryService.findByCategoryName(categoryName);
-    }
+    public ApiResponse findByCategoryName(@PathVariable String categoryName){
+        CategoryProjection cate = this.categoryService.findByCategoryName(categoryName);
+            if(cate != null){
+                return new ApiResponse<>(
+                        ApiStatus.SUC_RETRIEVED.getCode(),
+                        ApiStatus.SUC_RETRIEVED.getMessage(),
+                        cate
+                );
+            }
+            return new ApiResponse<>(ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage());
+        }
 
-    @GetMapping("/all")
-    public Map<String, Object> findByCategoryName(Pagination pagination){
-        List<CategoryProjection> cate = this.categoryService.findCategoryProjectionAll(pagination);
-        Map<String, Object> map = new HashMap<>();
-        map.put("data", cate);
-        map.put("pagination", pagination);
-        return map;
-    }
-
-    @GetMapping
-    public List<CategoryProjection> findByCategoryName(){
-        return this.categoryService.findAllCategory();
-    }
 
     @PostMapping
     public ApiResponse add(@RequestBody CategoryReq req){

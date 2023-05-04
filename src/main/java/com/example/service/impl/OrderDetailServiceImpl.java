@@ -27,7 +27,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     public OrderDetail update(OrderDetail orderDetail) {
         OrderDetail updateOrderDetail = this.orderDetailRepository.findById(orderDetail.getId()).orElse(null);
         if (!ObjectUtils.isEmpty(orderDetail)){
-            updateOrderDetail.setUnitPrice(orderDetail.getUnitPrice());
+//            updateOrderDetail.setUnitPrice(orderDetail.getUnitPrice());
             updateOrderDetail.setQuantity(orderDetail.getQuantity());
         }
         return null;

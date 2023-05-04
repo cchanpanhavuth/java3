@@ -18,6 +18,6 @@ import java.util.List;
 @Entity
 public class CarModel extends BaseEntity {
 
-    @Column(name = "name", length = 100, nullable = false, unique = true)
+    @Column(name = "model", length = 100, nullable = false, unique = true)
     private String model;
 }

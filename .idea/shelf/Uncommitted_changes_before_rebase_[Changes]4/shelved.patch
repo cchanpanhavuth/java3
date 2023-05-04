@@ -1,0 +1,292 @@
+Index: src/main/java/com/example/service/RoleService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/RoleService.java b/src/main/java/com/example/service/RoleService.java
+new file mode 100644
+--- /dev/null	(date 1682868511490)
++++ b/src/main/java/com/example/service/RoleService.java	(date 1682868511490)
+@@ -0,0 +1,15 @@
++package com.example.service;
++
++
++import com.example.entity.Role;
++
++public interface RoleService {
++    Role add(Role role);
++
++    Role update(Role role);
++
++    boolean deleteById(Long id);
++
++    Role findById(Long id);
++
++}
+Index: src/main/java/com/example/service/PermissionService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/PermissionService.java b/src/main/java/com/example/service/PermissionService.java
+new file mode 100644
+--- /dev/null	(date 1682868511482)
++++ b/src/main/java/com/example/service/PermissionService.java	(date 1682868511482)
+@@ -0,0 +1,14 @@
++package com.example.service;
++
++import com.example.entity.Permission;
++
++public interface PermissionService {
++    Permission add(Permission permission);
++
++    Permission update(Permission permission);
++
++    boolean deleteById(Long id);
++
++    Permission findById(Long id);
++
++}
+Index: src/main/java/com/example/service/SaleStaffService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/SaleStaffService.java b/src/main/java/com/example/service/SaleStaffService.java
+new file mode 100644
+--- /dev/null	(date 1682868511497)
++++ b/src/main/java/com/example/service/SaleStaffService.java	(date 1682868511497)
+@@ -0,0 +1,13 @@
++package com.example.service;
++
++import com.example.entity.SaleStaff;
++
++public interface SaleStaffService {
++    SaleStaff add(SaleStaff saleStaff);
++
++    SaleStaff update(SaleStaff saleStaff);
++
++    boolean deleteById(Long id);
++
++    SaleStaff findById(Long id);
++}
+Index: src/main/java/com/example/service/UserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/UserService.java b/src/main/java/com/example/service/UserService.java
+new file mode 100644
+--- /dev/null	(date 1682868511423)
++++ b/src/main/java/com/example/service/UserService.java	(date 1682868511423)
+@@ -0,0 +1,13 @@
++package com.example.service;
++
++import com.example.entity.User;
++
++public interface UserService {
++    User add(User user);
++
++    User update(User user);
++
++    boolean deleteById(Long id);
++
++    User findById(Long id);
++}
+Index: src/main/java/com/example/repository/SaleStaffRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/SaleStaffRepository.java b/src/main/java/com/example/repository/SaleStaffRepository.java
+new file mode 100644
+--- /dev/null	(date 1682868511441)
++++ b/src/main/java/com/example/repository/SaleStaffRepository.java	(date 1682868511441)
+@@ -0,0 +1,9 @@
++package com.example.repository;
++
++import com.example.entity.SaleStaff;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface SaleStaffRepository extends JpaRepository<SaleStaff, Long> {
++}
+Index: src/main/java/com/example/repository/UserRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/UserRepository.java b/src/main/java/com/example/repository/UserRepository.java
+new file mode 100644
+--- /dev/null	(date 1682868511432)
++++ b/src/main/java/com/example/repository/UserRepository.java	(date 1682868511432)
+@@ -0,0 +1,10 @@
++package com.example.repository;
++
++
++import com.example.entity.User;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface UserRepository extends JpaRepository<User, Long> {
++}
+Index: src/main/java/com/example/service/impl/PermissionServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/PermissionServiceImpl.java b/src/main/java/com/example/service/impl/PermissionServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1682868511459)
++++ b/src/main/java/com/example/service/impl/PermissionServiceImpl.java	(date 1682868511459)
+@@ -0,0 +1,48 @@
++package com.example.service.impl;
++
++import com.example.entity.Permission;
++import com.example.entity.User;
++import com.example.repository.PermissionRepository;
++import com.example.service.PermissionService;
++import org.springframework.beans.factory.annotation.Autowired;
++
++public class PermissionServiceImpl implements PermissionService {
++    private PermissionRepository permissionRepository;
++
++//    @Autowired
++    public PermissionServiceImpl(PermissionRepository permissionRepository){
++        this.permissionRepository = permissionRepository;
++    }
++
++    @Override
++    public Permission add(Permission permission){
++        permission.setCreatedBy("admin");
++        return this.permissionRepository.save(permission);
++    }
++
++    @Override
++    public Permission update(Permission permission){
++        Permission per2 = this.permissionRepository.findById(permission.getId()).orElse(null);
++        if (per2 == null){
++            return null;
++        }
++        per2.setUpdatedBy("phalleng");
++//        per2.setUsername(permission.getUsername());
++        return this.permissionRepository.save(per2);
++    }
++
++    @Override
++    public boolean deleteById(Long id){
++        Permission per2 = this.permissionRepository.findById(id).orElse(null);
++        if (per2 == null){
++            return true;
++        }
++        this.permissionRepository.deleteById(id);
++        return true;
++    }
++
++    @Override
++    public Permission findById(Long id){
++        return this.permissionRepository.findById(id).orElse(null);
++    }
++}
+Index: src/main/java/com/example/service/impl/UserServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/UserServiceImpl.java b/src/main/java/com/example/service/impl/UserServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1682868511451)
++++ b/src/main/java/com/example/service/impl/UserServiceImpl.java	(date 1682868511451)
+@@ -0,0 +1,52 @@
++package com.example.service.impl;
++
++import com.example.entity.User;
++import com.example.repository.UserRepository;
++import com.example.service.UserService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++
++@Service
++public class UserServiceImpl implements UserService {
++    private UserRepository userRepository;
++
++    @Autowired
++    private UserServiceImpl (UserRepository userRepository){
++        this.userRepository = userRepository;
++    }
++
++    @Override
++    public User add(User user){
++        user.setCreatedBy("admin");
++        return this.userRepository.save(user);
++    }
++
++    @Override
++    public User update(User user){
++        User user2 = this.userRepository.findById(user.getId()).orElse(null);
++        if (user2 == null){
++            return null;
++        }
++        user2.setUpdatedBy("phalleng");
++        user2.setUsername(user.getUsername());
++        return this.userRepository.save(user2);
++    }
++
++    @Override
++    public boolean deleteById(Long id){
++        User user2 = this.userRepository.findById(id).orElse(null);
++        if (user2 == null){
++            return true;
++        }
++        this.userRepository.deleteById(id);
++        return true;
++    }
++
++    @Override
++    public User findById(Long id){
++        return this.userRepository.findById(id).orElse(null);
++    }
++
++
++
++}
+Index: src/main/java/com/example/repository/PermissionRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/PermissionRepository.java b/src/main/java/com/example/repository/PermissionRepository.java
+new file mode 100644
+--- /dev/null	(date 1682868511475)
++++ b/src/main/java/com/example/repository/PermissionRepository.java	(date 1682868511475)
+@@ -0,0 +1,9 @@
++package com.example.repository;
++
++import com.example.entity.Permission;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface PermissionRepository extends JpaRepository<Permission, Long> {
++}
+Index: src/main/java/com/example/repository/RoleRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/RoleRepository.java b/src/main/java/com/example/repository/RoleRepository.java
+new file mode 100644
+--- /dev/null	(date 1682868511468)
++++ b/src/main/java/com/example/repository/RoleRepository.java	(date 1682868511468)
+@@ -0,0 +1,9 @@
++package com.example.repository;
++
++import com.example.entity.Role;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface RoleRepository extends JpaRepository<Role, Long> {
++}

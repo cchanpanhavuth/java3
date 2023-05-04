@@ -1,0 +1,221 @@
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\nspring.datasource.url=jdbc:mysql://localhost:3306/up_db_java\r\nspring.datasource.username=user_java\r\nspring.datasource.password=password_java\r\nspring.jpa.show-sql=true\r\nspring.jpa.hibernate.ddl-auto=create-drop\r\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect\r\nspring.jpa.properties.hibernate.dialect.storage_engine=innodb\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+--- a/src/main/resources/application.properties	(revision 56aff00d3c5633a1ea21c04d475198c4ab2eedce)
++++ b/src/main/resources/application.properties	(date 1683136017618)
+@@ -1,7 +1,7 @@
+ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.datasource.url=jdbc:mysql://localhost:3306/up_db_java
+-spring.datasource.username=user_java
+-spring.datasource.password=password_java
++spring.datasource.url=jdbc:mysql://localhost:3306/phalleng_spring
++spring.datasource.username=phalleng
++spring.datasource.password=password@123
+ spring.jpa.show-sql=true
+ spring.jpa.hibernate.ddl-auto=create-drop
+ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
+Index: src/main/java/com/example/controller/CarController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.controller;\r\n\r\nimport com.example.entity.*;\r\nimport com.example.entity.Car;\r\nimport com.example.entity.request.CarAddRequest;\r\nimport com.example.entity.request.CarUpdateRequest;\r\nimport com.example.service.CarFeaturesService;\r\nimport com.example.service.CarModelService;\r\nimport com.example.service.CarService;\r\nimport com.example.service.CategoryService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n@RestController\r\n@RequestMapping(\"/car\")\r\npublic class CarController {\r\n\r\n    private CarService carService;\r\n    private CategoryService categoryService;\r\n    private CarModelService carModelService;\r\n    private InventoryService inventoryService;\r\n    private BrandService brandService;\r\n    private ManufacturerLocationService manufacturerLocationService;\r\n    private BranchService branchService;\r\n    private CarFeaturesService carFeaturesService;\r\n\r\n    @Autowired\r\n    public CarController(\r\n            CarService carService,\r\n            CategoryService categoryService,\r\n            CarModelService carModelService,\r\n            InventoryService inventoryService,\r\n            BrandService brandService,\r\n            ManufacturerLocationService manufacturerLocationService,\r\n            BranchService branchService,\r\n            CarFeaturesService carFeaturesService\r\n    ){\r\n        this.carService = carService;\r\n        this.categoryService = categoryService;\r\n        this.carModelService = carModelService;\r\n        this.inventoryService = inventoryService;\r\n        this.branchService = branchService;\r\n        this.manufacturerLocationService = manufacturerLocationService;\r\n        this.brandService = brandService;\r\n        this.carFeaturesService = carFeaturesService;\r\n    }\r\n\r\n    @PostMapping\r\n    public Car add(@RequestBody CarAddRequest req){\r\n        Category category = this.categoryService.findById(req.getCategoryId());\r\n        CarModel carModel = this.carModelService.findById(req.getCarModelId());\r\n        Inventory inventory = this.inventoryService.findById(req.getInventoryId());\r\n        Brand brand = this.brandService.findById(req.getBrandId());\r\n        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());\r\n        Branch branch = this.branchService.findById(req.getBranchId());\r\n        CarFeatures carFeatures = this.carFeaturesService.findById(req.getCarFeatureId());\r\n        if(category ==null){\r\n            System.out.println(\"Category is not found!\");\r\n            return null;\r\n        } else if (carModel ==null) {\r\n            System.out.println(\"Car Model is not found!\");\r\n            return null;\r\n        }else if (inventory ==null) {\r\n            System.out.println(\"Inventory is not found!\");\r\n            return null;\r\n        }else if (brand ==null) {\r\n            System.out.println(\"Brand is not found!\");\r\n            return null;\r\n        }else if (manufacturerLocation ==null) {\r\n            System.out.println(\"Manufacturer Location is not found!\");\r\n            return null;\r\n        }else if (branch ==null) {\r\n            System.out.println(\"Branch Location is not found!\");\r\n            return null;\r\n        }else if (carFeatures ==null) {\r\n            System.out.println(\"Car Features Location is not found!\");\r\n            return null;\r\n        }\r\n        Car car = new Car();\r\n        car.setBrand_name(brand);\r\n        car.setInventory(inventory);\r\n        car.setManufacturer_location(manufacturerLocation);\r\n        car.setBranch_name(branch);\r\n        car.setModel_name(carModel);\r\n        car.setFeatures_id(carFeatures);\r\n        car.setPrice(req.getPrice());\r\n        car.setCategory_name(category);\r\n        this.carService.add(car);\r\n        return car;\r\n    }\r\n\r\n    @PutMapping\r\n    public Car update(@RequestBody CarUpdateRequest req){\r\n        Category category = this.categoryService.findById(req.getCategoryId());\r\n        CarModel carModel = this.carModelService.findById(req.getCarModelId());\r\n        Inventory inventory = this.inventoryService.findById(req.getInventoryId());\r\n        Brand brand = this.brandService.findById(req.getBrandId());\r\n        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());\r\n        Branch branch = this.branchService.findById(req.getBranchId());\r\n        CarFeatures carFeatures = this.carFeaturesService.findById(req.getCarFeatureId());\r\n        if(category ==null){\r\n            System.out.println(\"Category is not found!\");\r\n            return null;\r\n        } else if (carModel ==null) {\r\n            System.out.println(\"Car Model is not found!\");\r\n            return null;\r\n        }else if (inventory ==null) {\r\n            System.out.println(\"Inventory is not found!\");\r\n            return null;\r\n        }else if (brand ==null) {\r\n            System.out.println(\"Brand is not found!\");\r\n            return null;\r\n        }else if (manufacturerLocation ==null) {\r\n            System.out.println(\"Manufacturer Location is not found!\");\r\n            return null;\r\n        }else if (branch ==null) {\r\n            System.out.println(\"Branch Location is not found!\");\r\n            return null;\r\n        }else if (carFeatures ==null) {\r\n            System.out.println(\"Car Features Location is not found!\");\r\n            return null;\r\n        }\r\n        Car car = new Car();\r\n        car.setBrand_name(brand);\r\n        car.setInventory(inventory);\r\n        car.setManufacturer_location(manufacturerLocation);\r\n        car.setBranch_name(branch);\r\n        car.setModel_name(carModel);\r\n        car.setFeatures_id(carFeatures);\r\n        car.setPrice(req.getPrice());\r\n        car.setCategory_name(category);\r\n        this.carService.update(car);\r\n        return null;\r\n    }\r\n\r\n    @DeleteMapping(\"/{id}\")\r\n    public boolean delete(@PathVariable Long id){\r\n        return this.carService.deleteById(id);\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/controller/CarController.java b/src/main/java/com/example/controller/CarController.java
+--- a/src/main/java/com/example/controller/CarController.java	(revision 56aff00d3c5633a1ea21c04d475198c4ab2eedce)
++++ b/src/main/java/com/example/controller/CarController.java	(date 1683136017602)
+@@ -18,10 +18,10 @@
+     private CarService carService;
+     private CategoryService categoryService;
+     private CarModelService carModelService;
+-    private InventoryService inventoryService;
+-    private BrandService brandService;
+-    private ManufacturerLocationService manufacturerLocationService;
+-    private BranchService branchService;
++//    private InventoryService inventoryService;
++//    private BrandService brandService;
++//    private ManufacturerLocationService manufacturerLocationService;
++//    private BranchService branchService;
+     private CarFeaturesService carFeaturesService;
+ 
+     @Autowired
+@@ -29,19 +29,19 @@
+             CarService carService,
+             CategoryService categoryService,
+             CarModelService carModelService,
+-            InventoryService inventoryService,
+-            BrandService brandService,
+-            ManufacturerLocationService manufacturerLocationService,
+-            BranchService branchService,
++//            InventoryService inventoryService,
++//            BrandService brandService,
++//            ManufacturerLocationService manufacturerLocationService,
++//            BranchService branchService,
+             CarFeaturesService carFeaturesService
+     ){
+         this.carService = carService;
+         this.categoryService = categoryService;
+         this.carModelService = carModelService;
+-        this.inventoryService = inventoryService;
+-        this.branchService = branchService;
+-        this.manufacturerLocationService = manufacturerLocationService;
+-        this.brandService = brandService;
++//        this.inventoryService = inventoryService;
++//        this.branchService = branchService;
++//        this.manufacturerLocationService = manufacturerLocationService;
++//        this.brandService = brandService;
+         this.carFeaturesService = carFeaturesService;
+     }
+ 
+@@ -49,10 +49,10 @@
+     public Car add(@RequestBody CarAddRequest req){
+         Category category = this.categoryService.findById(req.getCategoryId());
+         CarModel carModel = this.carModelService.findById(req.getCarModelId());
+-        Inventory inventory = this.inventoryService.findById(req.getInventoryId());
+-        Brand brand = this.brandService.findById(req.getBrandId());
+-        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());
+-        Branch branch = this.branchService.findById(req.getBranchId());
++//        Inventory inventory = this.inventoryService.findById(req.getInventoryId());
++//        Brand brand = this.brandService.findById(req.getBrandId());
++//        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());
++//        Branch branch = this.branchService.findById(req.getBranchId());
+         CarFeatures carFeatures = this.carFeaturesService.findById(req.getCarFeatureId());
+         if(category ==null){
+             System.out.println("Category is not found!");
+@@ -60,30 +60,30 @@
+         } else if (carModel ==null) {
+             System.out.println("Car Model is not found!");
+             return null;
+-        }else if (inventory ==null) {
+-            System.out.println("Inventory is not found!");
+-            return null;
+-        }else if (brand ==null) {
+-            System.out.println("Brand is not found!");
+-            return null;
+-        }else if (manufacturerLocation ==null) {
+-            System.out.println("Manufacturer Location is not found!");
+-            return null;
+-        }else if (branch ==null) {
+-            System.out.println("Branch Location is not found!");
+-            return null;
++//        }else if (inventory ==null) {
++//            System.out.println("Inventory is not found!");
++//            return null;
++//        }else if (brand ==null) {
++//            System.out.println("Brand is not found!");
++//            return null;
++//        }else if (manufacturerLocation ==null) {
++//            System.out.println("Manufacturer Location is not found!");
++//            return null;
++//        }else if (branch ==null) {
++//            System.out.println("Branch Location is not found!");
++//            return null;
+         }else if (carFeatures ==null) {
+             System.out.println("Car Features Location is not found!");
+             return null;
+         }
+         Car car = new Car();
+-        car.setBrand_name(brand);
+-        car.setInventory(inventory);
+-        car.setManufacturer_location(manufacturerLocation);
+-        car.setBranch_name(branch);
++//        car.setBrand_name(brand);
++//        car.setInventory(inventory);
++//        car.setManufacturer_location(manufacturerLocation);
++//        car.setBranch_name(branch);
+         car.setModel_name(carModel);
+         car.setFeatures_id(carFeatures);
+-        car.setPrice(req.getPrice());
++//        car.setPrice(req.getPrice());
+         car.setCategory_name(category);
+         this.carService.add(car);
+         return car;
+@@ -93,10 +93,10 @@
+     public Car update(@RequestBody CarUpdateRequest req){
+         Category category = this.categoryService.findById(req.getCategoryId());
+         CarModel carModel = this.carModelService.findById(req.getCarModelId());
+-        Inventory inventory = this.inventoryService.findById(req.getInventoryId());
+-        Brand brand = this.brandService.findById(req.getBrandId());
+-        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());
+-        Branch branch = this.branchService.findById(req.getBranchId());
++//        Inventory inventory = this.inventoryService.findById(req.getInventoryId());
++//        Brand brand = this.brandService.findById(req.getBrandId());
++//        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());
++//        Branch branch = this.branchService.findById(req.getBranchId());
+         CarFeatures carFeatures = this.carFeaturesService.findById(req.getCarFeatureId());
+         if(category ==null){
+             System.out.println("Category is not found!");
+@@ -104,30 +104,30 @@
+         } else if (carModel ==null) {
+             System.out.println("Car Model is not found!");
+             return null;
+-        }else if (inventory ==null) {
+-            System.out.println("Inventory is not found!");
+-            return null;
+-        }else if (brand ==null) {
+-            System.out.println("Brand is not found!");
+-            return null;
+-        }else if (manufacturerLocation ==null) {
+-            System.out.println("Manufacturer Location is not found!");
+-            return null;
+-        }else if (branch ==null) {
+-            System.out.println("Branch Location is not found!");
+-            return null;
++//        }else if (inventory ==null) {
++//            System.out.println("Inventory is not found!");
++//            return null;
++//        }else if (brand ==null) {
++//            System.out.println("Brand is not found!");
++//            return null;
++//        }else if (manufacturerLocation ==null) {
++//            System.out.println("Manufacturer Location is not found!");
++//            return null;
++//        }else if (branch ==null) {
++//            System.out.println("Branch Location is not found!");
++//            return null;
+         }else if (carFeatures ==null) {
+             System.out.println("Car Features Location is not found!");
+             return null;
+         }
+         Car car = new Car();
+-        car.setBrand_name(brand);
+-        car.setInventory(inventory);
+-        car.setManufacturer_location(manufacturerLocation);
+-        car.setBranch_name(branch);
++//        car.setBrand_name(brand);
++//        car.setInventory(inventory);
++//        car.setManufacturer_location(manufacturerLocation);
++//        car.setBranch_name(branch);
+         car.setModel_name(carModel);
+         car.setFeatures_id(carFeatures);
+-        car.setPrice(req.getPrice());
++//        car.setPrice(req.getPrice());
+         car.setCategory_name(category);
+         this.carService.update(car);
+         return null;
+Index: target/classes/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\nspring.datasource.url=jdbc:mysql://localhost:3306/up_db_java\r\nspring.datasource.username=user_java\r\nspring.datasource.password=password_java\r\nspring.jpa.show-sql=true\r\nspring.jpa.hibernate.ddl-auto=create-drop\r\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect\r\nspring.jpa.properties.hibernate.dialect.storage_engine=innodb\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/target/classes/application.properties b/target/classes/application.properties
+--- a/target/classes/application.properties	(revision 56aff00d3c5633a1ea21c04d475198c4ab2eedce)
++++ b/target/classes/application.properties	(date 1683136017611)
+@@ -1,7 +1,7 @@
+ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.datasource.url=jdbc:mysql://localhost:3306/up_db_java
+-spring.datasource.username=user_java
+-spring.datasource.password=password_java
++spring.datasource.url=jdbc:mysql://localhost:3306/phalleng_spring
++spring.datasource.username=phalleng
++spring.datasource.password=password@123
+ spring.jpa.show-sql=true
+ spring.jpa.hibernate.ddl-auto=create-drop
+ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect

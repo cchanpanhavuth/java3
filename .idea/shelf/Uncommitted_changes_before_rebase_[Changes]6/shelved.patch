@@ -1,0 +1,603 @@
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\nspring.datasource.url=jdbc:mysql://localhost:3306/up_db_java\r\nspring.datasource.username=user_java\r\nspring.datasource.password=password_java\r\nspring.jpa.show-sql=true\r\nspring.jpa.hibernate.ddl-auto=create-drop\r\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect\r\nspring.jpa.properties.hibernate.dialect.storage_engine=innodb\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+--- a/src/main/resources/application.properties	(revision 56aff00d3c5633a1ea21c04d475198c4ab2eedce)
++++ b/src/main/resources/application.properties	(date 1683133136001)
+@@ -1,7 +1,7 @@
+ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.datasource.url=jdbc:mysql://localhost:3306/up_db_java
+-spring.datasource.username=user_java
+-spring.datasource.password=password_java
++spring.datasource.url=jdbc:mysql://localhost:3307/phalleng_spring
++spring.datasource.username=phalleng
++spring.datasource.password=password@123
+ spring.jpa.show-sql=true
+ spring.jpa.hibernate.ddl-auto=create-drop
+ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
+Index: src/main/java/com/example/service/impl/SaleStaffServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/SaleStaffServiceImpl.java b/src/main/java/com/example/service/impl/SaleStaffServiceImpl.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/service/impl/SaleStaffServiceImpl.java	
+@@ -0,0 +1,48 @@
++package com.example.service.impl;
++
++import com.example.entity.SaleStaff;
++import com.example.repository.SaleStaffRepository;
++import com.example.service.SaleStaffService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++
++@Service
++public class SaleStaffServiceImpl implements SaleStaffService {
++    private SaleStaffRepository saleStaffRepository;
++
++    @Autowired
++    private SaleStaffServiceImpl (SaleStaffRepository saleStaffRepository){
++        this.saleStaffRepository = saleStaffRepository;
++    }
++
++    @Override
++    public SaleStaff add(SaleStaff saleStaff){
++        saleStaff.setCreatedBy("admin");
++        return this.saleStaffRepository.save(saleStaff);
++    }
++
++    @Override
++    public SaleStaff update(SaleStaff saleStaff){
++        SaleStaff saleStaff1 = this.saleStaffRepository.findById(saleStaff.getId()).orElse(null);
++        if (saleStaff1 == null){
++            return null;
++        }
++        saleStaff1.setUpdatedBy("phalleng");
++        return this.saleStaffRepository.save(saleStaff1);
++    }
++
++    @Override
++    public boolean deleteById(Long id){
++        SaleStaff saleStaff1 = this.saleStaffRepository.findById(id).orElse(null);
++        if (saleStaff1 == null){
++            return true;
++        }
++        this.saleStaffRepository.deleteById(id);
++        return true;
++    }
++
++    @Override
++    public SaleStaff findById(Long id){
++        return this.saleStaffRepository.findById(id).orElse(null);
++    }
++}
+Index: src/main/java/com/example/service/RoleService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/RoleService.java b/src/main/java/com/example/service/RoleService.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/service/RoleService.java	
+@@ -0,0 +1,15 @@
++package com.example.service;
++
++
++import com.example.entity.Role;
++
++public interface RoleService {
++    Role add(Role role);
++
++    Role update(Role role);
++
++    boolean deleteById(Long id);
++
++    Role findById(Long id);
++
++}
+Index: src/main/java/com/example/service/impl/RoleServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/RoleServiceImpl.java b/src/main/java/com/example/service/impl/RoleServiceImpl.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/service/impl/RoleServiceImpl.java	
+@@ -0,0 +1,51 @@
++package com.example.service.impl;
++
++import com.example.entity.User;
++import com.example.repository.RoleRepository;
++import com.example.entity.Role;
++import com.example.service.RoleService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++
++@Service
++public class RoleServiceImpl implements RoleService {
++    private RoleRepository roleRepository;
++
++    @Autowired
++    private RoleServiceImpl (RoleRepository roleRepository){
++        this.roleRepository = roleRepository;
++    }
++
++    @Override
++    public Role add(Role role){
++        role.setCreatedBy("admin");
++        return this.roleRepository.save(role);
++    }
++
++    @Override
++    public Role update(Role role){
++        Role role1 = this.roleRepository.findById(role.getId()).orElse(null);
++            if(role1 == null){
++                return null;
++            }
++
++        return this.roleRepository.save(role1);
++
++    }
++
++    @Override
++    public boolean deleteById(Long id){
++        Role role1 = this.roleRepository.findById(id).orElse(null);
++        if (role1 == null){
++            return true;
++        }
++        this.roleRepository.deleteById(id);
++        return true;
++    }
++
++    @Override
++    public Role findById(Long id){
++        return this.roleRepository.findById(id).orElse(null);
++    }
++
++}
+Index: src/main/java/com/example/controller/CarController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.controller;\r\n\r\nimport com.example.entity.*;\r\nimport com.example.entity.Car;\r\nimport com.example.entity.request.CarAddRequest;\r\nimport com.example.entity.request.CarUpdateRequest;\r\nimport com.example.service.CarFeaturesService;\r\nimport com.example.service.CarModelService;\r\nimport com.example.service.CarService;\r\nimport com.example.service.CategoryService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n@RestController\r\n@RequestMapping(\"/car\")\r\npublic class CarController {\r\n\r\n    private CarService carService;\r\n    private CategoryService categoryService;\r\n    private CarModelService carModelService;\r\n    private InventoryService inventoryService;\r\n    private BrandService brandService;\r\n    private ManufacturerLocationService manufacturerLocationService;\r\n    private BranchService branchService;\r\n    private CarFeaturesService carFeaturesService;\r\n\r\n    @Autowired\r\n    public CarController(\r\n            CarService carService,\r\n            CategoryService categoryService,\r\n            CarModelService carModelService,\r\n            InventoryService inventoryService,\r\n            BrandService brandService,\r\n            ManufacturerLocationService manufacturerLocationService,\r\n            BranchService branchService,\r\n            CarFeaturesService carFeaturesService\r\n    ){\r\n        this.carService = carService;\r\n        this.categoryService = categoryService;\r\n        this.carModelService = carModelService;\r\n        this.inventoryService = inventoryService;\r\n        this.branchService = branchService;\r\n        this.manufacturerLocationService = manufacturerLocationService;\r\n        this.brandService = brandService;\r\n        this.carFeaturesService = carFeaturesService;\r\n    }\r\n\r\n    @PostMapping\r\n    public Car add(@RequestBody CarAddRequest req){\r\n        Category category = this.categoryService.findById(req.getCategoryId());\r\n        CarModel carModel = this.carModelService.findById(req.getCarModelId());\r\n        Inventory inventory = this.inventoryService.findById(req.getInventoryId());\r\n        Brand brand = this.brandService.findById(req.getBrandId());\r\n        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());\r\n        Branch branch = this.branchService.findById(req.getBranchId());\r\n        CarFeatures carFeatures = this.carFeaturesService.findById(req.getCarFeatureId());\r\n        if(category ==null){\r\n            System.out.println(\"Category is not found!\");\r\n            return null;\r\n        } else if (carModel ==null) {\r\n            System.out.println(\"Car Model is not found!\");\r\n            return null;\r\n        }else if (inventory ==null) {\r\n            System.out.println(\"Inventory is not found!\");\r\n            return null;\r\n        }else if (brand ==null) {\r\n            System.out.println(\"Brand is not found!\");\r\n            return null;\r\n        }else if (manufacturerLocation ==null) {\r\n            System.out.println(\"Manufacturer Location is not found!\");\r\n            return null;\r\n        }else if (branch ==null) {\r\n            System.out.println(\"Branch Location is not found!\");\r\n            return null;\r\n        }else if (carFeatures ==null) {\r\n            System.out.println(\"Car Features Location is not found!\");\r\n            return null;\r\n        }\r\n        Car car = new Car();\r\n        car.setBrand_name(brand);\r\n        car.setInventory(inventory);\r\n        car.setManufacturer_location(manufacturerLocation);\r\n        car.setBranch_name(branch);\r\n        car.setModel_name(carModel);\r\n        car.setFeatures_id(carFeatures);\r\n        car.setPrice(req.getPrice());\r\n        car.setCategory_name(category);\r\n        this.carService.add(car);\r\n        return car;\r\n    }\r\n\r\n    @PutMapping\r\n    public Car update(@RequestBody CarUpdateRequest req){\r\n        Category category = this.categoryService.findById(req.getCategoryId());\r\n        CarModel carModel = this.carModelService.findById(req.getCarModelId());\r\n        Inventory inventory = this.inventoryService.findById(req.getInventoryId());\r\n        Brand brand = this.brandService.findById(req.getBrandId());\r\n        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());\r\n        Branch branch = this.branchService.findById(req.getBranchId());\r\n        CarFeatures carFeatures = this.carFeaturesService.findById(req.getCarFeatureId());\r\n        if(category ==null){\r\n            System.out.println(\"Category is not found!\");\r\n            return null;\r\n        } else if (carModel ==null) {\r\n            System.out.println(\"Car Model is not found!\");\r\n            return null;\r\n        }else if (inventory ==null) {\r\n            System.out.println(\"Inventory is not found!\");\r\n            return null;\r\n        }else if (brand ==null) {\r\n            System.out.println(\"Brand is not found!\");\r\n            return null;\r\n        }else if (manufacturerLocation ==null) {\r\n            System.out.println(\"Manufacturer Location is not found!\");\r\n            return null;\r\n        }else if (branch ==null) {\r\n            System.out.println(\"Branch Location is not found!\");\r\n            return null;\r\n        }else if (carFeatures ==null) {\r\n            System.out.println(\"Car Features Location is not found!\");\r\n            return null;\r\n        }\r\n        Car car = new Car();\r\n        car.setBrand_name(brand);\r\n        car.setInventory(inventory);\r\n        car.setManufacturer_location(manufacturerLocation);\r\n        car.setBranch_name(branch);\r\n        car.setModel_name(carModel);\r\n        car.setFeatures_id(carFeatures);\r\n        car.setPrice(req.getPrice());\r\n        car.setCategory_name(category);\r\n        this.carService.update(car);\r\n        return null;\r\n    }\r\n\r\n    @DeleteMapping(\"/{id}\")\r\n    public boolean delete(@PathVariable Long id){\r\n        return this.carService.deleteById(id);\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/controller/CarController.java b/src/main/java/com/example/controller/CarController.java
+--- a/src/main/java/com/example/controller/CarController.java	(revision 56aff00d3c5633a1ea21c04d475198c4ab2eedce)
++++ b/src/main/java/com/example/controller/CarController.java	(date 1683133135998)
+@@ -18,10 +18,10 @@
+     private CarService carService;
+     private CategoryService categoryService;
+     private CarModelService carModelService;
+-    private InventoryService inventoryService;
+-    private BrandService brandService;
+-    private ManufacturerLocationService manufacturerLocationService;
+-    private BranchService branchService;
++//    private InventoryService inventoryService;
++//    private BrandService brandService;
++//    private ManufacturerLocationService manufacturerLocationService;
++//    private BranchService branchService;
+     private CarFeaturesService carFeaturesService;
+ 
+     @Autowired
+@@ -29,19 +29,19 @@
+             CarService carService,
+             CategoryService categoryService,
+             CarModelService carModelService,
+-            InventoryService inventoryService,
+-            BrandService brandService,
+-            ManufacturerLocationService manufacturerLocationService,
+-            BranchService branchService,
++//            InventoryService inventoryService,
++//            BrandService brandService,
++//            ManufacturerLocationService manufacturerLocationService,
++//            BranchService branchService,
+             CarFeaturesService carFeaturesService
+     ){
+         this.carService = carService;
+         this.categoryService = categoryService;
+         this.carModelService = carModelService;
+-        this.inventoryService = inventoryService;
+-        this.branchService = branchService;
+-        this.manufacturerLocationService = manufacturerLocationService;
+-        this.brandService = brandService;
++//        this.inventoryService = inventoryService;
++//        this.branchService = branchService;
++//        this.manufacturerLocationService = manufacturerLocationService;
++//        this.brandService = brandService;
+         this.carFeaturesService = carFeaturesService;
+     }
+ 
+@@ -49,10 +49,10 @@
+     public Car add(@RequestBody CarAddRequest req){
+         Category category = this.categoryService.findById(req.getCategoryId());
+         CarModel carModel = this.carModelService.findById(req.getCarModelId());
+-        Inventory inventory = this.inventoryService.findById(req.getInventoryId());
+-        Brand brand = this.brandService.findById(req.getBrandId());
+-        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());
+-        Branch branch = this.branchService.findById(req.getBranchId());
++//        Inventory inventory = this.inventoryService.findById(req.getInventoryId());
++//        Brand brand = this.brandService.findById(req.getBrandId());
++//        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());
++//        Branch branch = this.branchService.findById(req.getBranchId());
+         CarFeatures carFeatures = this.carFeaturesService.findById(req.getCarFeatureId());
+         if(category ==null){
+             System.out.println("Category is not found!");
+@@ -60,27 +60,27 @@
+         } else if (carModel ==null) {
+             System.out.println("Car Model is not found!");
+             return null;
+-        }else if (inventory ==null) {
+-            System.out.println("Inventory is not found!");
+-            return null;
+-        }else if (brand ==null) {
+-            System.out.println("Brand is not found!");
+-            return null;
+-        }else if (manufacturerLocation ==null) {
+-            System.out.println("Manufacturer Location is not found!");
+-            return null;
+-        }else if (branch ==null) {
+-            System.out.println("Branch Location is not found!");
+-            return null;
++//        }else if (inventory ==null) {
++//            System.out.println("Inventory is not found!");
++//            return null;
++//        }else if (brand ==null) {
++//            System.out.println("Brand is not found!");
++//            return null;
++//        }else if (manufacturerLocation ==null) {
++//            System.out.println("Manufacturer Location is not found!");
++//            return null;
++//        }else if (branch ==null) {
++//            System.out.println("Branch Location is not found!");
++//            return null;
+         }else if (carFeatures ==null) {
+             System.out.println("Car Features Location is not found!");
+             return null;
+         }
+         Car car = new Car();
+-        car.setBrand_name(brand);
+-        car.setInventory(inventory);
+-        car.setManufacturer_location(manufacturerLocation);
+-        car.setBranch_name(branch);
++//        car.setBrand_name(brand);
++//        car.setInventory(inventory);
++//        car.setManufacturer_location(manufacturerLocation);
++//        car.setBranch_name(branch);
+         car.setModel_name(carModel);
+         car.setFeatures_id(carFeatures);
+         car.setPrice(req.getPrice());
+@@ -93,10 +93,10 @@
+     public Car update(@RequestBody CarUpdateRequest req){
+         Category category = this.categoryService.findById(req.getCategoryId());
+         CarModel carModel = this.carModelService.findById(req.getCarModelId());
+-        Inventory inventory = this.inventoryService.findById(req.getInventoryId());
+-        Brand brand = this.brandService.findById(req.getBrandId());
+-        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());
+-        Branch branch = this.branchService.findById(req.getBranchId());
++//        Inventory inventory = this.inventoryService.findById(req.getInventoryId());
++//        Brand brand = this.brandService.findById(req.getBrandId());
++//        ManufacturerLocation manufacturerLocation = this.manufacturerLocationService.findById(req.getManufacturerLocationId());
++//        Branch branch = this.branchService.findById(req.getBranchId());
+         CarFeatures carFeatures = this.carFeaturesService.findById(req.getCarFeatureId());
+         if(category ==null){
+             System.out.println("Category is not found!");
+@@ -104,27 +104,28 @@
+         } else if (carModel ==null) {
+             System.out.println("Car Model is not found!");
+             return null;
+-        }else if (inventory ==null) {
+-            System.out.println("Inventory is not found!");
+-            return null;
+-        }else if (brand ==null) {
+-            System.out.println("Brand is not found!");
+-            return null;
+-        }else if (manufacturerLocation ==null) {
+-            System.out.println("Manufacturer Location is not found!");
+-            return null;
+-        }else if (branch ==null) {
+-            System.out.println("Branch Location is not found!");
+-            return null;
++//        }
++//        else if (inventory ==null) {
++//            System.out.println("Inventory is not found!");
++//            return null;
++//        }else if (brand ==null) {
++//            System.out.println("Brand is not found!");
++//            return null;
++//        }else if (manufacturerLocation ==null) {
++//            System.out.println("Manufacturer Location is not found!");
++//            return null;
++//        }else if (branch ==null) {
++//            System.out.println("Branch Location is not found!");
++//            return null;
+         }else if (carFeatures ==null) {
+             System.out.println("Car Features Location is not found!");
+             return null;
+         }
+         Car car = new Car();
+-        car.setBrand_name(brand);
+-        car.setInventory(inventory);
+-        car.setManufacturer_location(manufacturerLocation);
+-        car.setBranch_name(branch);
++//        car.setBrand_name(brand);
++//        car.setInventory(inventory);
++//        car.setManufacturer_location(manufacturerLocation);
++//        car.setBranch_name(branch);
+         car.setModel_name(carModel);
+         car.setFeatures_id(carFeatures);
+         car.setPrice(req.getPrice());
+Index: src/main/java/com/example/service/SaleStaffService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/SaleStaffService.java b/src/main/java/com/example/service/SaleStaffService.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/service/SaleStaffService.java	
+@@ -0,0 +1,13 @@
++package com.example.service;
++
++import com.example.entity.SaleStaff;
++
++public interface SaleStaffService {
++    SaleStaff add(SaleStaff saleStaff);
++
++    SaleStaff update(SaleStaff saleStaff);
++
++    boolean deleteById(Long id);
++
++    SaleStaff findById(Long id);
++}
+Index: src/main/java/com/example/service/PermissionService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/PermissionService.java b/src/main/java/com/example/service/PermissionService.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/service/PermissionService.java	
+@@ -0,0 +1,14 @@
++package com.example.service;
++
++import com.example.entity.Permission;
++
++public interface PermissionService {
++    Permission add(Permission permission);
++
++    Permission update(Permission permission);
++
++    boolean deleteById(Long id);
++
++    Permission findById(Long id);
++
++}
+Index: src/main/java/com/example/repository/SaleStaffRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/SaleStaffRepository.java b/src/main/java/com/example/repository/SaleStaffRepository.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/repository/SaleStaffRepository.java	
+@@ -0,0 +1,9 @@
++package com.example.repository;
++
++import com.example.entity.SaleStaff;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface SaleStaffRepository extends JpaRepository<SaleStaff, Long> {
++}
+Index: src/main/java/com/example/service/UserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/UserService.java b/src/main/java/com/example/service/UserService.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/service/UserService.java	
+@@ -0,0 +1,13 @@
++package com.example.service;
++
++import com.example.entity.User;
++
++public interface UserService {
++    User add(User user);
++
++    User update(User user);
++
++    boolean deleteById(Long id);
++
++    User findById(Long id);
++}
+Index: src/main/java/com/example/service/impl/PermissionServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/PermissionServiceImpl.java b/src/main/java/com/example/service/impl/PermissionServiceImpl.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/service/impl/PermissionServiceImpl.java	
+@@ -0,0 +1,47 @@
++package com.example.service.impl;
++
++import com.example.entity.Permission;
++import com.example.entity.User;
++import com.example.repository.PermissionRepository;
++import com.example.service.PermissionService;
++import org.springframework.beans.factory.annotation.Autowired;
++
++public class PermissionServiceImpl implements PermissionService {
++    private PermissionRepository permissionRepository;
++
++//    @Autowired
++    public PermissionServiceImpl(PermissionRepository permissionRepository){
++        this.permissionRepository = permissionRepository;
++    }
++
++    @Override
++    public Permission add(Permission permission){
++        permission.setCreatedBy("admin");
++        return this.permissionRepository.save(permission);
++    }
++
++    @Override
++    public Permission update(Permission permission){
++        Permission per2 = this.permissionRepository.findById(permission.getId()).orElse(null);
++        if (per2 == null){
++            return null;
++        }
++        per2.setUpdatedBy("phalleng");
++        return this.permissionRepository.save(per2);
++    }
++
++    @Override
++    public boolean deleteById(Long id){
++        Permission per2 = this.permissionRepository.findById(id).orElse(null);
++        if (per2 == null){
++            return true;
++        }
++        this.permissionRepository.deleteById(id);
++        return true;
++    }
++
++    @Override
++    public Permission findById(Long id){
++        return this.permissionRepository.findById(id).orElse(null);
++    }
++}
+Index: src/main/java/com/example/repository/UserRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/UserRepository.java b/src/main/java/com/example/repository/UserRepository.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/repository/UserRepository.java	
+@@ -0,0 +1,10 @@
++package com.example.repository;
++
++
++import com.example.entity.User;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface UserRepository extends JpaRepository<User, Long> {
++}
+Index: src/main/java/com/example/repository/PermissionRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/PermissionRepository.java b/src/main/java/com/example/repository/PermissionRepository.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/repository/PermissionRepository.java	
+@@ -0,0 +1,9 @@
++package com.example.repository;
++
++import com.example.entity.Permission;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface PermissionRepository extends JpaRepository<Permission, Long> {
++}
+Index: src/main/java/com/example/service/impl/UserServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/UserServiceImpl.java b/src/main/java/com/example/service/impl/UserServiceImpl.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/service/impl/UserServiceImpl.java	
+@@ -0,0 +1,52 @@
++package com.example.service.impl;
++
++import com.example.entity.User;
++import com.example.repository.UserRepository;
++import com.example.service.UserService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++
++@Service
++public class UserServiceImpl implements UserService {
++    private UserRepository userRepository;
++
++    @Autowired
++    private UserServiceImpl (UserRepository userRepository){
++        this.userRepository = userRepository;
++    }
++
++    @Override
++    public User add(User user){
++        user.setCreatedBy("admin");
++        return this.userRepository.save(user);
++    }
++
++    @Override
++    public User update(User user){
++        User user2 = this.userRepository.findById(user.getId()).orElse(null);
++        if (user2 == null){
++            return null;
++        }
++        user2.setUpdatedBy("phalleng");
++        user2.setUsername(user.getUsername());
++        return this.userRepository.save(user2);
++    }
++
++    @Override
++    public boolean deleteById(Long id){
++        User user2 = this.userRepository.findById(id).orElse(null);
++        if (user2 == null){
++            return true;
++        }
++        this.userRepository.deleteById(id);
++        return true;
++    }
++
++    @Override
++    public User findById(Long id){
++        return this.userRepository.findById(id).orElse(null);
++    }
++
++
++
++}
+Index: src/main/java/com/example/repository/RoleRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/RoleRepository.java b/src/main/java/com/example/repository/RoleRepository.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/example/repository/RoleRepository.java	
+@@ -0,0 +1,9 @@
++package com.example.repository;
++
++import com.example.entity.Role;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface RoleRepository extends JpaRepository<Role, Long> {
++}

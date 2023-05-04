@@ -1,0 +1,21 @@
+Index: target/classes/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\nspring.datasource.url=jdbc:mysql://localhost:3306/up_db_java\r\nspring.datasource.username=user_java\r\nspring.datasource.password=password_java\r\nspring.jpa.show-sql=true\r\nspring.jpa.hibernate.ddl-auto=create-drop\r\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect\r\nspring.jpa.properties.hibernate.dialect.storage_engine=innodb\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/target/classes/application.properties b/target/classes/application.properties
+--- a/target/classes/application.properties	(revision 56aff00d3c5633a1ea21c04d475198c4ab2eedce)
++++ b/target/classes/application.properties	(date 1683133227290)
+@@ -1,7 +1,7 @@
+ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.datasource.url=jdbc:mysql://localhost:3306/up_db_java
+-spring.datasource.username=user_java
+-spring.datasource.password=password_java
++spring.datasource.url=jdbc:mysql://localhost:3307/phalleng_spring
++spring.datasource.username=phalleng
++spring.datasource.password=password@123
+ spring.jpa.show-sql=true
+ spring.jpa.hibernate.ddl-auto=create-drop
+ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect

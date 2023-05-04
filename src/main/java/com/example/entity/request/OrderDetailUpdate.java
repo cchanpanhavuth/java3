@@ -3,7 +3,8 @@ package com.example.entity.request;
 import lombok.Data;
 
 @Data
-public class OrderCarDetailReq {
+public class OrderDetailUpdate {
+    private Long id;
     private Long car_id;
     private Long order_id;
     private Double unitPrice;

@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 public class Branch extends BaseEntity {
 
-    @OneToMany(mappedBy = "branch_name")
+    @OneToMany(mappedBy = "branchId")
     private List<Car> cars;
 
     @Column(name = "Street_No,", length = 100, nullable = false, unique = true)

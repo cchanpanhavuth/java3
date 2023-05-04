@@ -15,8 +15,8 @@ import java.util.List;
 @Builder
 @Entity
 public class OrderDetail extends BaseEntity {
-    @Column(name = "Unit_Price", nullable = false)
-    private Double unitPrice;
+//    @Column(name = "Unit_Price", nullable = false)
+//    private Double unitPrice;
     @Column(name = "Quantity", nullable = false)
     private Integer quantity;
     @ManyToOne

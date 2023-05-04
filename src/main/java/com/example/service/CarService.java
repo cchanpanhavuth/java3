@@ -13,11 +13,10 @@ public interface CarService {
     Car add(Car car);
     Car update(Car car);
     boolean deleteById(Long id);
-    Car findById(Long id);
+
 
     CarProjection findByPrice(Double price);
 
-    //List<CarProjection> findAllCar();
 
     List<CarProjection> findCarProjectionAll(Pagination pagination);
     long countCarByStatus(StatusEnum statusEnum);

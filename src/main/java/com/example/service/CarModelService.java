@@ -14,7 +14,6 @@ public interface CarModelService {
     CarModel update(CarModel carModel);
     boolean deleteById(Long id);
     CarModel findById(Long id);
-//    CarModelProjection findCarModelByName(String name);
 
     List<CarModelProjection> findAllCarModel();
 

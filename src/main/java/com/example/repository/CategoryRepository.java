@@ -27,5 +27,4 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(value = "SELECT count(id) FROM Category where status= :status" , nativeQuery = false)
     long countCategoryByStatus( @Param("status") StatusEnum statusEnum);
 
-
 }

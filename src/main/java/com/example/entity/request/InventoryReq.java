@@ -7,5 +7,4 @@ import lombok.Data;
 public class InventoryReq {
     private Integer quantity;
     private Double importPrice;
-    private Long carID;
 }

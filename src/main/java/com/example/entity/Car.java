@@ -15,22 +15,36 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Car extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = "brand_id")
-    private Brand brand_name;
 
-    @ManyToOne
-    @JoinColumn(name = "ManufacturerLocation_id")
-    private ManufacturerLocation ManufacturerLocation;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category_name;
+    private String year;
+    private String color;
 
     @ManyToOne
     @JoinColumn(name = "branch_name_id")
-    private Branch branch_name;
+    private Branch branchId;
 
-    @OneToMany(mappedBy = "cars", cascade=CascadeType.ALL, orphanRemoval = true)
-    List<OrderDetail> orderDetailsList;
+    private Double price;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brandId;
+
+    @ManyToOne
+    @JoinColumn(name = "ManufacturerLocation_id")
+    private ManufacturerLocation manufactureId;
+
+    @ManyToOne
+    @JoinColumn(name = "Model_id")
+    private CarModel modelId;
+
+    @ManyToOne
+    @JoinColumn(name = "Category_id")
+    private Category categoryId;
+
+    @OneToOne
+    @JoinColumn(name = "inventory_id")
+    private Inventory inventoryId;
+
+    @ManyToOne
+    @JoinColumn(name = "features_id")
+    private CarFeatures featuresId;
 }

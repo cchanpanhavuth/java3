@@ -1,11 +1,25 @@
 package com.example.service.impl;
 
+import com.example.entity.Customer;
 import com.example.entity.OrderCars;
+import com.example.entity.projection.CustomerProjection;
+import com.example.entity.projection.OrderCarProjection;
+import com.example.entity.request.OrderCarReq;
+import com.example.entity.request.OrderCarsUpdate;
+import com.example.entity.response.Pagination;
 import com.example.repository.OrderCarsRepository;
 import com.example.service.OrderCarsService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.client.ResourceAccessException;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderCarsServiceImpl implements OrderCarsService {
@@ -16,36 +30,54 @@ public class OrderCarsServiceImpl implements OrderCarsService {
     }
 
     @Override
-    public OrderCars add(OrderCars orderCars) {
-        return this.orderCarsRepository.save(orderCars);
+    public OrderCars add(OrderCarReq req) {
+        OrderCars orderCar = new OrderCars();
+        BeanUtils.copyProperties(req, orderCar);
+        return orderCarsRepository.save(orderCar);
     }
 
     @Override
-    public OrderCars update(OrderCars orderCars) {
-        OrderCars orderCars1 = this.orderCarsRepository.findById(orderCars.getId()).orElse(null);
-        if (!ObjectUtils.isEmpty(orderCars)){
-            orderCars1.setCustomer(orderCars.getCustomer());
-            orderCars1.setSaleStaff(orderCars.getSaleStaff());
-            orderCars1.setTotalAmount(orderCars.getTotalAmount());
-            orderCars1.setDiscount(orderCars.getDiscount());
-            return orderCarsRepository.save(orderCars1);
-        }
-        return null;
+    public OrderCars update(OrderCarsUpdate req) {
+        OrderCars orderCar = orderCarsRepository.findById(req.getId())
+                .orElseThrow(() -> new ResourceAccessException("Customer could not found!!"));
+        BeanUtils.copyProperties(req, orderCar);
+        return orderCar;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        OrderCars orderCars1 = this.orderCarsRepository.findById(id).orElse(null);
-        if (orderCars1 == null){
-            return false;
-        }
-        this.orderCarsRepository.deleteById(id);
+        OrderCars orderCar = orderCarsRepository.findById(id)
+                .orElseThrow(() -> new ResourceAccessException("Customer could not found!!"));
+        orderCarsRepository.delete(orderCar);
         return true;
     }
 
     @Override
     public OrderCars findById(Long id) {
+        return orderCarsRepository.findById(id)
+                .orElseThrow(() -> new ResourceAccessException("Customer could not found!!"));
+    }
 
-        return this.orderCarsRepository.findById(id).orElse(null);
+    @Override
+    public OrderCarProjection findByCustomerId(Long id) {
+        return orderCarsRepository.findByCustomerId(id)
+                .orElseThrow(() -> new ResourceAccessException("Customer could not found!!"));
+    }
+
+    @Override
+    public OrderCarProjection findByStaffId(Long id) {
+        return orderCarsRepository.findByStaffId(id)
+                .orElseThrow(() -> new ResourceAccessException("Customer could not found!!"));
+    }
+
+    @Override
+    public List<OrderCarProjection> findAllOrderCarProjectionBy(Pagination pagination) {
+
+        Page<OrderCarProjection> customerProjection = orderCarsRepository.findAllOrderCarProjectionBy(
+                PageRequest.of(pagination.getPage()-1, pagination.getSize()));
+
+        pagination.setTotalCounts(customerProjection.getTotalElements());
+        return customerProjection.getContent();
+
     }
 }

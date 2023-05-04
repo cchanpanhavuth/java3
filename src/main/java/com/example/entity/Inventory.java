@@ -1,9 +1,7 @@
 package com.example.entity;
 
 import com.example.entity.mapperclass.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,3 +18,5 @@ public class Inventory extends BaseEntity {
     private Double importPrice;
 
 }
+
+

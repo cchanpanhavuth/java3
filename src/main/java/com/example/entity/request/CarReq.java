@@ -13,14 +13,17 @@ import java.util.List;
 @NoArgsConstructor
 public class CarReq {
 
-    private String brand;
-    private String model;
     private String year;
     private String color;
-    private int stock;
     private double price;
-    private Branch branch_name;
-    List<OrderCarReq> orderDetailsList;
+    private Long inventoryId;
+    private Long categoryId;
+    private Long featureId;
+    private Long modelId;
+    private Long branchId;
+    private Long brandId;
+    private Long manufactureId;
+
 
 
 }

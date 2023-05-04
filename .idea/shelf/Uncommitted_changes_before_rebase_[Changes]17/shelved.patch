@@ -1,0 +1,781 @@
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\nspring.datasource.url=jdbc:mysql://localhost:3307/DB_CONCEPT_II\r\nspring.datasource.username=up_user\r\nspring.datasource.password=up_password\r\nspring.jpa.show-sql=true\r\n# spring.jpa.hibernate.ddl-auto=create-drop\r\nspring.jpa.hibernate.ddl-auto=update\r\n#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect\r\n#spring.jpa.properties.hibernate.dialect.storage_engine=innodb\r\nspring.sql.init.mode=never\r\n# swagger-ui custom path\r\nspringdoc.swagger-ui.path=/swagger-ui.html\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+--- a/src/main/resources/application.properties	(revision a8d4162ffbb18cc8c3fcdc932b841bb97f514551)
++++ b/src/main/resources/application.properties	(date 1683201312508)
+@@ -1,7 +1,7 @@
+ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.datasource.url=jdbc:mysql://localhost:3307/DB_CONCEPT_II
+-spring.datasource.username=up_user
+-spring.datasource.password=up_password
++spring.datasource.url=jdbc:mysql://localhost:3307/phalleng_spring
++spring.datasource.username=phalleng
++spring.datasource.password=password@123
+ spring.jpa.show-sql=true
+ # spring.jpa.hibernate.ddl-auto=create-drop
+ spring.jpa.hibernate.ddl-auto=update
+Index: src/main/java/com/example/service/impl/UserServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/UserServiceImpl.java b/src/main/java/com/example/service/impl/UserServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1683205174781)
++++ b/src/main/java/com/example/service/impl/UserServiceImpl.java	(date 1683205174781)
+@@ -0,0 +1,78 @@
++package com.example.service.impl;
++
++import com.example.entity.User;
++import com.example.entity.enums.StatusEnum;
++import com.example.entity.projection.UserProjection;
++import com.example.entity.response.Pagination;
++import com.example.repository.UserRepository;
++import com.example.service.UserService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.data.domain.Page;
++import org.springframework.data.domain.PageRequest;
++import org.springframework.transaction.annotation.Transactional;
++import org.springframework.util.ObjectUtils;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public class UserServiceImpl implements UserService {
++    private UserRepository userRepository;
++
++    @Autowired
++    public UserServiceImpl(UserRepository userRepository){
++        this.userRepository = userRepository;
++    }
++
++    @Override
++    public User addUser(User user) {
++        return userRepository.save(user);
++    }
++
++    @Override
++    public boolean deleteById(Long id) {
++        User user = userRepository.findById(id).orElse(null);
++        if(!ObjectUtils.isEmpty(user)){
++            userRepository.deleteById(id);
++            return true;
++        }
++        return false;
++    }
++
++    @Transactional
++    @Override
++    public User updateUser(User user) {
++        User userToUpdate = userRepository.findById(user.getId()).orElse(null);
++        if(!ObjectUtils.isEmpty(user)){
++            userToUpdate.setUsername(user.getUsername());
++            userToUpdate.setEmail(user.getEmail());
++            userToUpdate.setPassword(user.getPassword());
++            return userRepository.save(userToUpdate);
++        }
++        return null;
++    }
++
++    @Override
++    public User findById(Long id) {
++
++        return this.userRepository.findById(id).orElse(null);
++    }
++
++    @Override
++    public UserProjection findUserProjectionById(Long id) {
++        return this.userRepository.findUserProjectionById(id).orElse(null);
++    }
++
++    @Override
++    public List<UserProjection> findUserProjectionByUsernameContainingIgnoreCase(String username, Pagination pagination) {
++        Page<UserProjection> userProjections = this.userRepository.findUserProjectionByUsernameContainingIgnoreCase(
++                username, PageRequest.of(pagination.getPage()-1, pagination.getSize())
++        );
++        pagination.setTotalCounts(userProjections.getTotalElements());
++        return userProjections.getContent() ;
++    }
++
++    @Override
++    public long countUserByStatus(StatusEnum statusEnum) {
++        return this.userRepository.countUserByStatus(statusEnum);
++    }
++}
+Index: src/main/java/com/example/entity/CarModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.entity;\r\n\r\nimport com.example.entity.mapperclass.BaseEntity;\r\n<<<<<<< HEAD\r\nimport jakarta.persistence.Column;\r\nimport jakarta.persistence.Entity;\r\nimport jakarta.persistence.OneToMany;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.Builder;\r\nimport lombok.Data;\r\nimport lombok.NoArgsConstructor;\r\n\r\nimport java.util.List;\r\n\r\n@Data\r\n@Builder\r\n@AllArgsConstructor\r\n@NoArgsConstructor\r\n@Entity\r\npublic class CarModel extends BaseEntity {\r\n    @OneToMany(mappedBy = \"carModel\")\r\n    private List<Car> carModel;\r\n\r\n    @Column(name = \"name\", length = 100, nullable = false, unique = true)\r\n    private String name;\r\n=======\r\n\r\npublic class CarModel extends BaseEntity {\r\n>>>>>>> c471e53 (Additional Tables)\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/entity/CarModel.java b/src/main/java/com/example/entity/CarModel.java
+--- a/src/main/java/com/example/entity/CarModel.java	(revision a8d4162ffbb18cc8c3fcdc932b841bb97f514551)
++++ b/src/main/java/com/example/entity/CarModel.java	(date 1683201170484)
+@@ -1,7 +1,7 @@
+ package com.example.entity;
+ 
+ import com.example.entity.mapperclass.BaseEntity;
+-<<<<<<< HEAD
++
+ import jakarta.persistence.Column;
+ import jakarta.persistence.Entity;
+ import jakarta.persistence.OneToMany;
+@@ -18,13 +18,14 @@
+ @NoArgsConstructor
+ @Entity
+ public class CarModel extends BaseEntity {
+-    @OneToMany(mappedBy = "carModel")
+-    private List<Car> carModel;
++//    @OneToMany(mappedBy = "carModel")
++//    private List<Car> carModel;
+ 
+     @Column(name = "name", length = 100, nullable = false, unique = true)
+     private String name;
+-=======
+ 
+-public class CarModel extends BaseEntity {
+->>>>>>> c471e53 (Additional Tables)
+ }
++
++//public class CarModel extends BaseEntity {
++//
++//}
+Index: src/main/java/com/example/service/UserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/UserService.java b/src/main/java/com/example/service/UserService.java
+new file mode 100644
+--- /dev/null	(date 1683202562968)
++++ b/src/main/java/com/example/service/UserService.java	(date 1683202562968)
+@@ -0,0 +1,22 @@
++package com.example.service;
++
++import com.example.entity.User;
++import com.example.entity.enums.StatusEnum;
++import com.example.entity.projection.UserProjection;
++import com.example.entity.response.Pagination;
++
++import java.util.List;
++
++public interface UserService {
++    User addUser(User user);
++    boolean deleteById(Long id);
++
++    User updateUser(User user);
++
++    User findById(Long id);
++
++    UserProjection findUserProjectionById(Long id);
++    List<UserProjection> findUserProjectionByUsernameContainingIgnoreCase(String username, Pagination pagination);
++
++    long countUserByStatus(StatusEnum statusEnum);
++}
+Index: src/main/java/com/example/controller/PermissionController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/controller/PermissionController.java b/src/main/java/com/example/controller/PermissionController.java
+new file mode 100644
+--- /dev/null	(date 1683218724397)
++++ b/src/main/java/com/example/controller/PermissionController.java	(date 1683218724397)
+@@ -0,0 +1,4 @@
++package com.example.controller;
++
++public class PermissionController {
++}
+Index: src/main/java/com/example/controller/SaleStaffController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/controller/SaleStaffController.java b/src/main/java/com/example/controller/SaleStaffController.java
+new file mode 100644
+--- /dev/null	(date 1683218724437)
++++ b/src/main/java/com/example/controller/SaleStaffController.java	(date 1683218724437)
+@@ -0,0 +1,4 @@
++package com.example.controller;
++
++public class SaleStaffController {
++}
+Index: src/main/java/com/example/service/SaleStaffService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.service;\r\n\r\npublic interface SaleStaffService {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/SaleStaffService.java b/src/main/java/com/example/service/SaleStaffService.java
+--- a/src/main/java/com/example/service/SaleStaffService.java	(revision a8d4162ffbb18cc8c3fcdc932b841bb97f514551)
++++ b/src/main/java/com/example/service/SaleStaffService.java	(date 1683218724447)
+@@ -1,4 +1,8 @@
+ package com.example.service;
+ 
++import com.example.entity.Permission;
++import com.example.entity.User;
++
+ public interface SaleStaffService {
++
+ }
+Index: src/main/java/com/example/entity/projection/SaleStaffProjection.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/entity/projection/SaleStaffProjection.java b/src/main/java/com/example/entity/projection/SaleStaffProjection.java
+new file mode 100644
+--- /dev/null	(date 1683218724387)
++++ b/src/main/java/com/example/entity/projection/SaleStaffProjection.java	(date 1683218724387)
+@@ -0,0 +1,4 @@
++package com.example.entity.projection;
++
++public interface SaleStaffProjection {
++}
+Index: src/main/java/com/example/service/impl/SaleStaffServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/SaleStaffServiceImpl.java b/src/main/java/com/example/service/impl/SaleStaffServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1683218724427)
++++ b/src/main/java/com/example/service/impl/SaleStaffServiceImpl.java	(date 1683218724427)
+@@ -0,0 +1,4 @@
++package com.example.service.impl;
++
++public class SaleStaffServiceImpl {
++}
+Index: src/main/java/com/example/repository/SaleStaff.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/SaleStaff.java b/src/main/java/com/example/repository/SaleStaff.java
+new file mode 100644
+--- /dev/null	(date 1683218724377)
++++ b/src/main/java/com/example/repository/SaleStaff.java	(date 1683218724377)
+@@ -0,0 +1,17 @@
++package com.example.repository;
++
++import com.example.entity.projection.SaleStaffProjection;
++import org.springframework.data.domain.Page;
++import org.springframework.data.domain.Pageable;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++import java.util.Optional;
++
++
++
++public interface SaleStaff extends JpaRepository {
++    Optional<SaleStaffProjection> findPermissionProjectionById(Long id);
++
++    Page<SaleStaffProjection> findPermissionProjectionByIdContainingIgnoreCase(String id, Pageable pageable);
++
++}
+Index: src/main/java/com/example/entity/projection/UserProjection.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/entity/projection/UserProjection.java b/src/main/java/com/example/entity/projection/UserProjection.java
+new file mode 100644
+--- /dev/null	(date 1683203205691)
++++ b/src/main/java/com/example/entity/projection/UserProjection.java	(date 1683203205691)
+@@ -0,0 +1,9 @@
++package com.example.entity.projection;
++
++public interface UserProjection {
++    String getUsername();
++
++    String getPassword();
++    String getEmail();
++
++}
+Index: src/main/java/com/example/service/PermissionService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/PermissionService.java b/src/main/java/com/example/service/PermissionService.java
+new file mode 100644
+--- /dev/null	(date 1683218724417)
++++ b/src/main/java/com/example/service/PermissionService.java	(date 1683218724417)
+@@ -0,0 +1,7 @@
++package com.example.service;
++
++import com.example.entity.Permission;
++
++public interface PermissionService {
++    Permission addPermission(Permission permission);
++}
+Index: src/main/java/com/example/service/impl/PermissionServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/PermissionServiceImpl.java b/src/main/java/com/example/service/impl/PermissionServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1683218724407)
++++ b/src/main/java/com/example/service/impl/PermissionServiceImpl.java	(date 1683218724407)
+@@ -0,0 +1,4 @@
++package com.example.service.impl;
++
++public class PermissionServiceImpl {
++}
+Index: src/main/java/com/example/service/RoleService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/RoleService.java b/src/main/java/com/example/service/RoleService.java
+new file mode 100644
+--- /dev/null	(date 1683218304581)
++++ b/src/main/java/com/example/service/RoleService.java	(date 1683218304581)
+@@ -0,0 +1,16 @@
++package com.example.service;
++
++import com.example.entity.Role;
++import com.example.entity.projection.RoleProjection;
++import com.example.entity.projection.UserProjection;
++import org.springframework.data.domain.Pageable;
++
++public interface RoleService {
++    Role addRole(Role role);
++
++    Role findById(Long id);
++
++    RoleProjection findUserProjectionById(Long id);
++    RoleProjection findRoleProjectionByIdContainingIgnoreCase(String id, Pageable pageable);
++
++}
+Index: src/main/java/com/example/service/impl/RoleServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/RoleServiceImpl.java b/src/main/java/com/example/service/impl/RoleServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1683218304573)
++++ b/src/main/java/com/example/service/impl/RoleServiceImpl.java	(date 1683218304573)
+@@ -0,0 +1,9 @@
++package com.example.service.impl;
++
++
++public class RoleServiceImpl{
++
++
++
++
++}
+Index: src/main/java/com/example/repository/UserRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/UserRepository.java b/src/main/java/com/example/repository/UserRepository.java
+new file mode 100644
+--- /dev/null	(date 1683202482502)
++++ b/src/main/java/com/example/repository/UserRepository.java	(date 1683202482502)
+@@ -0,0 +1,24 @@
++package com.example.repository;
++
++import com.example.entity.User;
++import com.example.entity.enums.StatusEnum;
++import com.example.entity.projection.UserProjection;
++import org.springframework.data.domain.Page;
++import org.springframework.data.domain.Pageable;
++import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.data.jpa.repository.Query;
++import org.springframework.data.repository.query.Param;
++import org.springframework.stereotype.Repository;
++
++import java.util.Optional;
++
++@Repository
++public interface UserRepository extends JpaRepository<User, Long> {
++    Optional<UserProjection> findUserProjectionById(Long id);
++
++    Page<UserProjection> findUserProjectionByUsernameContainingIgnoreCase(String username, Pageable pageable);
++
++
++    @Query(value = "SELECT count(id) FROM User where status= :status" , nativeQuery = false)
++    long countUserByStatus( @Param("status") StatusEnum statusEnum);
++}
+Index: src/main/java/com/example/repository/RoleRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/RoleRepository.java b/src/main/java/com/example/repository/RoleRepository.java
+new file mode 100644
+--- /dev/null	(date 1683204866666)
++++ b/src/main/java/com/example/repository/RoleRepository.java	(date 1683204866666)
+@@ -0,0 +1,15 @@
++package com.example.repository;
++
++import com.example.entity.projection.RoleProjection;
++import org.springframework.data.domain.Page;
++import org.springframework.data.domain.Pageable;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++import java.util.Optional;
++
++public interface RoleRepository extends JpaRepository {
++    Optional<RoleProjection> findRoleProjectionById(Long id);
++
++    Page<RoleProjection> findRoleProjectionByIdContainingIgnoreCase(String id, Pageable pageable);
++
++}
+Index: src/main/java/com/example/entity/projection/PermissionProjection.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/entity/projection/PermissionProjection.java b/src/main/java/com/example/entity/projection/PermissionProjection.java
+new file mode 100644
+--- /dev/null	(date 1683218724458)
++++ b/src/main/java/com/example/entity/projection/PermissionProjection.java	(date 1683218724458)
+@@ -0,0 +1,5 @@
++package com.example.entity.projection;
++
++public interface PermissionProjection {
++
++}
+Index: src/main/java/com/example/entity/projection/RoleProjection.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/entity/projection/RoleProjection.java b/src/main/java/com/example/entity/projection/RoleProjection.java
+new file mode 100644
+--- /dev/null	(date 1683203999419)
++++ b/src/main/java/com/example/entity/projection/RoleProjection.java	(date 1683203999419)
+@@ -0,0 +1,5 @@
++package com.example.entity.projection;
++
++public interface RoleProjection {
++    String getRole_Description();
++}
+Index: src/main/java/com/example/controller/RoleController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/controller/RoleController.java b/src/main/java/com/example/controller/RoleController.java
+new file mode 100644
+--- /dev/null	(date 1683218304588)
++++ b/src/main/java/com/example/controller/RoleController.java	(date 1683218304588)
+@@ -0,0 +1,4 @@
++package com.example.controller;
++
++public class RoleController {
++}
+Index: src/main/java/com/example/repository/Permission.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/repository/Permission.java b/src/main/java/com/example/repository/Permission.java
+new file mode 100644
+--- /dev/null	(date 1683218724469)
++++ b/src/main/java/com/example/repository/Permission.java	(date 1683218724469)
+@@ -0,0 +1,16 @@
++package com.example.repository;
++
++import com.example.entity.projection.PermissionProjection;
++import com.example.entity.projection.RoleProjection;
++import org.springframework.data.domain.Page;
++import org.springframework.data.domain.Pageable;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++import java.util.Optional;
++
++public interface Permission extends JpaRepository {
++    Optional<PermissionProjection> findPermissionProjectionById(Long id);
++
++    Page<PermissionProjection> findPermissionProjectionByIdContainingIgnoreCase(String id, Pageable pageable);
++
++}
+\ No newline at end of file
+Index: src/main/java/com/example/controller/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/controller/UserController.java b/src/main/java/com/example/controller/UserController.java
+new file mode 100644
+--- /dev/null	(date 1683218304613)
++++ b/src/main/java/com/example/controller/UserController.java	(date 1683218304613)
+@@ -0,0 +1,89 @@
++package com.example.controller;
++
++import com.example.entity.User;
++import com.example.entity.enums.StatusEnum;
++import com.example.entity.projection.UserProjection;
++import com.example.entity.request.UserReq;
++import com.example.entity.response.Pagination;
++import com.example.service.UserService;
++import org.springframework.beans.BeanUtils;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.*;
++
++import java.util.HashMap;
++import java.util.List;
++import java.util.Map;
++
++public class UserController {
++    private UserService userService;
++    @Autowired
++    private UserController(UserService userService){
++        this.userService = userService;
++    }
++
++    @PostMapping
++    public String addUser(@RequestBody UserReq req){
++        // TODO: Prepare User Object
++        User user = new User();
++//        user.setUsername(req.getUsername());
++//        user.setPassword(req.getPassword());
++//        user.setEmail(req.getEmail());
++        BeanUtils.copyProperties(req, user);
++        User us1 = userService.addUser(user);
++        return "added user";
++    }
++
++    @DeleteMapping("/{id}")
++    public String deleteUserById(@PathVariable Long id){
++        this.userService.deleteById(id);
++        return "delete user";
++    }
++
++    @PutMapping("/{id}")
++    public String updateUser(@PathVariable Long id , @RequestBody UserReq req){
++        User user = new User();
++        BeanUtils.copyProperties(req, user);
++        user.setId(id);
++        userService.updateUser(user);
++        return "Update user";
++    }
++
++
++    @GetMapping("/{id}")
++    public Map<String, Object> findUserById(@PathVariable Long id){
++        Map<String, Object> map = new HashMap<>();
++        UserProjection user = this.userService.findUserProjectionById(id);
++        if(user != null){
++            map.put("message", "Success");
++            map.put("data", user);
++        }else {
++            map.put("message", "No Data!");
++        }
++        return map;
++    }
++
++    @GetMapping("/")
++    public Map<String, Object> findUserByUsernameContaining(
++            @RequestParam(value = "username", required = false, defaultValue = "") String username,
++            Pagination pagination){
++        Map<String, Object> map = new HashMap<>();
++        List<UserProjection> user = this.userService.findUserProjectionByUsernameContainingIgnoreCase(username, pagination);
++        if(user != null){
++            map.put("message", "Success");
++            map.put("data", user);
++            map.put("pagination", pagination);
++        }else {
++            map.put("message", "No Data!");
++        }
++        return map;
++    }
++
++    @GetMapping("/count")
++    public Map<String, Object> countUserByStatus(){
++        Map<String, Object> map = new HashMap<>();
++        long user = this.userService.countUserByStatus( StatusEnum.ACT);
++        map.put("data", user);
++        map.put("message", "success");
++        return map;
++    }
++}
+Index: src/main/java/com/example/entity/request/UserReq.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/entity/request/UserReq.java b/src/main/java/com/example/entity/request/UserReq.java
+new file mode 100644
+--- /dev/null	(date 1683203152482)
++++ b/src/main/java/com/example/entity/request/UserReq.java	(date 1683203152482)
+@@ -0,0 +1,10 @@
++package com.example.entity.request;
++
++import java.util.List;
++
++public class UserReq {
++    private String username;
++    private String password;
++    private String email;
++
++}
+Index: src/main/java/com/example/controller/InventoryController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.controller;\r\nimport com.example.entity.Car;\r\nimport com.example.entity.Inventory;\r\nimport com.example.entity.request.InventoryReq;\r\nimport com.example.entity.request.InventoryUpdateReq;\r\nimport com.example.service.CarService;\r\nimport com.example.service.InventoryService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n@Controller\r\n@RestController\r\n@RequestMapping(\"/inventory\")\r\npublic class InventoryController{\r\n    private InventoryService inventoryService;\r\n    private CarService carService;\r\n\r\n    public InventoryController(InventoryService inventoryService, CarService carService) {\r\n        this.inventoryService = inventoryService;\r\n        this.carService = carService;\r\n    }\r\n\r\n    @Autowired\r\n\r\n    @PostMapping\r\n    public Inventory add(@RequestBody InventoryReq req){\r\n        Car car = this.carService.findById(req.getCarID());\r\n        if (car == null){\r\n            System.out.println(\"Car could not found!!\");\r\n            return null;\r\n        }\r\n        Inventory inventory = new Inventory();\r\n        inventory.setQuantity(req.getQuantity());\r\n        inventory.setImportPrice(req.getImportPrice());\r\n        inventory.setCar(car);\r\n        this.inventoryService.add(inventory);\r\n        return inventory;\r\n    }\r\n\r\n    @PutMapping\r\n    public Inventory update(@RequestBody InventoryUpdateReq updateReq){\r\n        Car car = this.carService.findById(updateReq.getCarID());\r\n        if (car == null){\r\n            System.out.println(\"Car could not found!!\");\r\n            return null;\r\n        }\r\n        Inventory inventory = new Inventory();\r\n        inventory.setQuantity(updateReq.getQuantity());\r\n        inventory.setImportPrice(updateReq.getImportPrice());\r\n        inventory.setCar(car);\r\n        this.inventoryService.update(inventory);\r\n        return inventory;\r\n    }\r\n\r\n    @DeleteMapping(\"/{id}\")\r\n    public boolean delete(@PathVariable Long id){\r\n        return this.inventoryService.deleteById(id);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/controller/InventoryController.java b/src/main/java/com/example/controller/InventoryController.java
+--- a/src/main/java/com/example/controller/InventoryController.java	(revision a8d4162ffbb18cc8c3fcdc932b841bb97f514551)
++++ b/src/main/java/com/example/controller/InventoryController.java	(date 1683136919926)
+@@ -33,7 +33,7 @@
+         Inventory inventory = new Inventory();
+         inventory.setQuantity(req.getQuantity());
+         inventory.setImportPrice(req.getImportPrice());
+-        inventory.setCar(car);
++//        inventory.setCar(car);
+         this.inventoryService.add(inventory);
+         return inventory;
+     }
+@@ -48,7 +48,7 @@
+         Inventory inventory = new Inventory();
+         inventory.setQuantity(updateReq.getQuantity());
+         inventory.setImportPrice(updateReq.getImportPrice());
+-        inventory.setCar(car);
++//        inventory.setCar(car);
+         this.inventoryService.update(inventory);
+         return inventory;
+     }
+Index: src/main/java/com/example/controller/OrderCarsController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.controller;\r\n\r\nimport com.example.entity.Customer;\r\nimport com.example.entity.OrderCars;\r\nimport com.example.entity.SaleStaff;\r\nimport com.example.entity.request.OrderCarReq;\r\nimport com.example.entity.request.OrderCarsUpdate;\r\nimport com.example.service.CustomerService;\r\nimport com.example.service.OrderCarsService;\r\nimport com.example.service.SaleStaffService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n@Controller\r\n@RestController\r\n@RequestMapping(\"/orderCars\")\r\npublic class OrderCarsController {\r\n    private CustomerService customerService;\r\n    private SaleStaffService saleStaffService;\r\n    private OrderCarsService orderCarsService;\r\n    @Autowired\r\n    public OrderCarsController(CustomerService customerService, SaleStaffService saleStaffService, OrderCarsService orderCarsService) {\r\n        this.customerService = customerService;\r\n        this.saleStaffService = saleStaffService;\r\n        this.orderCarsService = orderCarsService;\r\n    }\r\n    @PostMapping\r\n    public OrderCars add(@RequestBody OrderCarReq req){\r\n        Customer customer = this.customerService.findById(req.getCustomer_id());\r\n        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());\r\n        if(customer == null || saleStaff == null){\r\n            System.out.println(\"Customer is not found!\");\r\n            return null;\r\n        }\r\n        OrderCars orderCars = new OrderCars();\r\n        orderCars.setCustomer(customer);\r\n        orderCars.setSaleStaff(saleStaff);\r\n        orderCars.setTotalAmount(req.getTotal());\r\n        orderCars.setDiscount(req.getDiscount());\r\n        this.orderCarsService.add(orderCars);\r\n        return orderCars;\r\n    }\r\n\r\n    @PutMapping\r\n    public OrderCars update(@RequestBody OrderCarsUpdate req){\r\n        Customer customer = this.customerService.findById(req.getCustomer_id());\r\n        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());\r\n        if(customer == null || saleStaff == null){\r\n            System.out.println(\"Customer is not found!\");\r\n            return null;\r\n        }\r\n        OrderCars orderCars = new OrderCars();\r\n        orderCars.setCustomer(customer);\r\n        orderCars.setSaleStaff(saleStaff);\r\n        orderCars.setTotalAmount(req.getTotal());\r\n        orderCars.setDiscount(req.getDiscount());\r\n        this.orderCarsService.update(orderCars);\r\n        return orderCars;\r\n    }\r\n\r\n    @DeleteMapping(\"/{id}\")\r\n    public boolean delete(@PathVariable Long id){\r\n        return this.orderCarsService.deleteById(id);\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/controller/OrderCarsController.java b/src/main/java/com/example/controller/OrderCarsController.java
+--- a/src/main/java/com/example/controller/OrderCarsController.java	(revision a8d4162ffbb18cc8c3fcdc932b841bb97f514551)
++++ b/src/main/java/com/example/controller/OrderCarsController.java	(date 1683136966695)
+@@ -28,14 +28,14 @@
+     @PostMapping
+     public OrderCars add(@RequestBody OrderCarReq req){
+         Customer customer = this.customerService.findById(req.getCustomer_id());
+-        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());
+-        if(customer == null || saleStaff == null){
+-            System.out.println("Customer is not found!");
+-            return null;
+-        }
++//        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());
++//        if(customer == null || saleStaff == null){
++//            System.out.println("Customer is not found!");
++//            return null;
++//        }
+         OrderCars orderCars = new OrderCars();
+         orderCars.setCustomer(customer);
+-        orderCars.setSaleStaff(saleStaff);
++//        orderCars.setSaleStaff(saleStaff);
+         orderCars.setTotalAmount(req.getTotal());
+         orderCars.setDiscount(req.getDiscount());
+         this.orderCarsService.add(orderCars);
+@@ -45,14 +45,14 @@
+     @PutMapping
+     public OrderCars update(@RequestBody OrderCarsUpdate req){
+         Customer customer = this.customerService.findById(req.getCustomer_id());
+-        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());
+-        if(customer == null || saleStaff == null){
+-            System.out.println("Customer is not found!");
+-            return null;
+-        }
++//        SaleStaff saleStaff =  this.saleStaffService.findById(req.getStaff_id());
++//        if(customer == null || saleStaff == null){
++//            System.out.println("Customer is not found!");
++//            return null;
++//        }
+         OrderCars orderCars = new OrderCars();
+         orderCars.setCustomer(customer);
+-        orderCars.setSaleStaff(saleStaff);
++//        orderCars.setSaleStaff(saleStaff);
+         orderCars.setTotalAmount(req.getTotal());
+         orderCars.setDiscount(req.getDiscount());
+         this.orderCarsService.update(orderCars);
+Index: src/main/java/com/example/service/impl/CarServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.service.impl;\r\n\r\nimport com.example.configuration.exceptions.NotFoundException;\r\nimport com.example.configuration.exceptions.TranscationException;\r\nimport com.example.entity.Car;\r\nimport com.example.entity.CarFeatures;\r\nimport com.example.entity.Category;\r\nimport com.example.entity.enums.StatusEnum;\r\nimport com.example.entity.projection.CarProjection;\r\nimport com.example.entity.projection.CategoryProjection;\r\nimport com.example.entity.response.ApiStatus;\r\nimport com.example.entity.response.Pagination;\r\nimport com.example.repository.CarRepository;\r\nimport com.example.service.CarService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.data.domain.Page;\r\nimport org.springframework.data.domain.PageRequest;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.transaction.annotation.Transactional;\r\nimport org.springframework.util.ObjectUtils;\r\n\r\nimport java.util.List;\r\n\r\n@Service\r\npublic class CarServiceImpl implements CarService {\r\n    private CarRepository carRepository;\r\n\r\n    @Autowired\r\n    public CarServiceImpl(CarRepository carRepository){\r\n        this.carRepository = carRepository;\r\n    }\r\n\r\n    @Override\r\n    public Car add(Car car) {\r\n        Car insertedCar = null;\r\n        try{\r\n            insertedCar = carRepository.save(car);\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            throw new TranscationException(\r\n                    ApiStatus.FAI_CREATED.getCode(),\r\n                    ApiStatus.FAI_CREATED.getMessage());\r\n        }\r\n        return insertedCar;\r\n    }\r\n    @Transactional\r\n    @Override\r\n    public Car update(Car car) {\r\n        Car carToUpdate = carRepository.findById(car.getId())\r\n                .orElseThrow(() -> new NotFoundException(\r\n                        ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));\r\n        try{\r\n            if(!ObjectUtils.isEmpty(car)){\r\n                carToUpdate.setPrice(car.getPrice());\r\n                carToUpdate.setColor(car.getColor());\r\n                carToUpdate.setYear(car.getYear());\r\n//                List<Car> carList = new ArrayList<>();\r\n//                List<Customer> customerList = new ArrayList<>();\r\n//                if(!ObjectUtils.isEmpty(carFeatures.getCars())){\r\n//                    for(Car car : carFeatures.getCars()){\r\n//                        carList.add(car);\r\n//                        car.setColor(featureToUpdate);\r\n//                    }\r\n//                    featureToUpdate.getAddresses().clear();\r\n//                    featureToUpdate.getAddresses().addAll(addressList);\r\n//                }\r\n//                else if(!ObjectUtils.isEmpty(user.getAddresses())){\r\n//                    for(Address adr : user.getAddresses()){\r\n//                        addressList.add(adr);\r\n//                        adr.setUser(featureToUpdate);\r\n//                    }\r\n//                    featureToUpdate.getAddresses().clear();\r\n//                    featureToUpdate.getAddresses().addAll(addressList);\r\n//                }\r\n                return carRepository.save(carToUpdate);\r\n            }\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            throw new TranscationException(ApiStatus.FAI_UPDATED.getCode(), ApiStatus.FAI_UPDATED.getMessage());\r\n        }\r\n        return null;\r\n    }\r\n\r\n    @Override\r\n    public boolean deleteById(Long id) {\r\n        Car car = carRepository.findById(id).orElseThrow(() -> new NotFoundException(\r\n                ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));\r\n        if(!ObjectUtils.isEmpty(car)){\r\n            carRepository.deleteById(id);\r\n            return true;\r\n        }\r\n        return false;\r\n    }\r\n\r\n    @Override\r\n    public Car findById(Long id) {\r\n\r\n        return this.carRepository.findById(id).orElseThrow(() -> new NotFoundException(\r\n                ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));\r\n    }\r\n\r\n    @Override\r\n    public CarProjection findByPrice(Double price) {\r\n        return this.carRepository.findByPrice(price).orElseThrow(\r\n                () -> new NotFoundException(\r\n                        ApiStatus.NOT_FOUND.getCode(),\r\n                        ApiStatus.NOT_FOUND.getMessage()\r\n                )\r\n        );\r\n    }\r\n\r\n//    @Override\r\n//    public List<CarProjection> findAllCar() {\r\n//        return carRepository.findAllCarBy();\r\n//    }\r\n\r\n    @Override\r\n    public List<CarProjection> findCarProjectionAll(Pagination pagination) {\r\n        Page<CarProjection> car = carRepository.findAllCarProjectionBy(\r\n                PageRequest.of(pagination.getPage()-1, pagination.getSize())\r\n        );\r\n        pagination.setTotalCounts(car.getTotalElements());\r\n        return car.getContent() ;\r\n    }\r\n\r\n    @Override\r\n    public CarProjection findCarProjectionById(Long id) {\r\n        return this.carRepository.findCarProjectionById(id).orElseThrow(\r\n                () -> new NotFoundException(\r\n                        ApiStatus.NOT_FOUND.getCode(),\r\n                        ApiStatus.NOT_FOUND.getMessage()\r\n                )\r\n        );\r\n    }\r\n    @Override\r\n    public long countCarByStatus(StatusEnum statusEnum) {\r\n\r\n        return this.carRepository.countCarByStatus(statusEnum);\r\n    }\r\n\r\n    @Override\r\n    public List<CarProjection> findCarProjectionByYearContainingIgnoreCase(String year, Pagination pagination) {\r\n        Page<CarProjection> carProjections = this.carRepository.findCarProjectionByYearContainingIgnoreCase(\r\n                year, PageRequest.of(pagination.getPage()-1, pagination.getSize())\r\n        );\r\n        pagination.setTotalCounts(carProjections.getTotalElements());\r\n        return carProjections.getContent() ;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/CarServiceImpl.java b/src/main/java/com/example/service/impl/CarServiceImpl.java
+--- a/src/main/java/com/example/service/impl/CarServiceImpl.java	(revision a8d4162ffbb18cc8c3fcdc932b841bb97f514551)
++++ b/src/main/java/com/example/service/impl/CarServiceImpl.java	(date 1683137002462)
+@@ -51,9 +51,9 @@
+                         ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));
+         try{
+             if(!ObjectUtils.isEmpty(car)){
+-                carToUpdate.setPrice(car.getPrice());
+-                carToUpdate.setColor(car.getColor());
+-                carToUpdate.setYear(car.getYear());
++//                carToUpdate.setPrice(car.getPrice());
++//                carToUpdate.setColor(car.getColor());
++//                carToUpdate.setYear(car.getYear());
+ //                List<Car> carList = new ArrayList<>();
+ //                List<Customer> customerList = new ArrayList<>();
+ //                if(!ObjectUtils.isEmpty(carFeatures.getCars())){
+Index: src/main/java/com/example/service/impl/CarModelServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.service.impl;\r\n\r\nimport com.example.configuration.exceptions.NotFoundException;\r\nimport com.example.entity.Car;\r\nimport com.example.entity.CarFeatures;\r\nimport com.example.entity.CarModel;\r\nimport com.example.entity.enums.StatusEnum;\r\nimport com.example.entity.projection.CarFeaturesProjection;\r\nimport com.example.entity.projection.CarModelProjection;\r\nimport com.example.entity.projection.CategoryProjection;\r\nimport com.example.entity.response.ApiStatus;\r\nimport com.example.entity.response.Pagination;\r\nimport com.example.repository.CarModelRepository;\r\nimport com.example.service.CarModelService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.data.domain.Page;\r\nimport org.springframework.data.domain.PageRequest;\r\nimport org.springframework.stereotype.Service;\r\nimport com.example.configuration.exceptions.TranscationException;\r\nimport org.springframework.transaction.annotation.Transactional;\r\nimport org.springframework.util.ObjectUtils;\r\n\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n@Service\r\npublic class CarModelServiceImpl implements CarModelService {\r\n    private CarModelRepository carModelRepository;\r\n\r\n    @Autowired\r\n    public CarModelServiceImpl(CarModelRepository carModelRepository){\r\n        this.carModelRepository = carModelRepository;\r\n\r\n    }\r\n\r\n    @Override\r\n    public CarModel add(CarModel carModel) {\r\n        CarModel insertedModel = null;\r\n        try{\r\n            insertedModel = carModelRepository.save(carModel);\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            throw new TranscationException(\r\n                    ApiStatus.FAI_CREATED.getCode(),\r\n                    ApiStatus.FAI_CREATED.getMessage());\r\n        }\r\n        return insertedModel;\r\n    }\r\n    @Transactional\r\n    @Override\r\n    public CarModel update(CarModel carModel) {\r\n        CarModel modelToUpdate = carModelRepository.findById(carModel.getId())\r\n                .orElseThrow(() -> new NotFoundException(\r\n                        ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));\r\n        try{\r\n            if(!ObjectUtils.isEmpty(carModel)){\r\n                modelToUpdate.setModel(carModel.getModel());\r\n            //    modelToUpdate.setName(carModel.getName());\r\n//                List<Car> carList = new ArrayList<>();\r\n//                if(!ObjectUtils.isEmpty(carModel.getCarModel())){\r\n//                    for(Car car : carModel.getCarModel()){\r\n//                        carList.add(car);\r\n//                        car.setModel(modelToUpdate);\r\n//                    }\r\n//                    modelToUpdate.getCarModel().clear();\r\n//                    modelToUpdate.getCarModel().addAll(carList);\r\n//                }\r\n                return carModelRepository.save(modelToUpdate);\r\n            }\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            throw new TranscationException(ApiStatus.FAI_UPDATED.getCode(), ApiStatus.FAI_UPDATED.getMessage());\r\n        }\r\n        return null;\r\n    }\r\n    @Override\r\n    public boolean deleteById(Long id) {\r\n        CarModel carModel = carModelRepository.findById(id).orElseThrow(() -> new NotFoundException(\r\n                ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));\r\n        if(!ObjectUtils.isEmpty(carModel)){\r\n            carModelRepository.deleteById(id);\r\n            return true;\r\n        }\r\n        return false;\r\n    }\r\n\r\n    @Override\r\n    public CarModel findById(Long id) {\r\n        return this.carModelRepository.findById(id).orElseThrow(() -> new NotFoundException(\r\n                ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));\r\n    }\r\n\r\n//    @Override\r\n//    public CarModelProjection findCarModelByName(String name) {\r\n//        return this.carModelRepository.findCarModelByName(name).orElseThrow(\r\n//                () -> new NotFoundException(\r\n//                        ApiStatus.NOT_FOUND.getCode(),\r\n//                        ApiStatus.NOT_FOUND.getMessage()\r\n//                )\r\n//        );\r\n//    }\r\n\r\n    @Override\r\n    public List<CarModelProjection> findAllCarModel() {\r\n        return carModelRepository.findAllCarModelBy();\r\n    }\r\n\r\n    @Override\r\n    public List<CarModelProjection> findCarModelProjectionAll(Pagination pagination) {\r\n        Page<CarModelProjection> carmo = carModelRepository.findAllCarModelProjectionBy(\r\n                PageRequest.of(pagination.getPage()-1, pagination.getSize())\r\n        );\r\n        pagination.setTotalCounts(carmo.getTotalElements());\r\n        return carmo.getContent() ;\r\n    }\r\n\r\n    @Override\r\n    public CarModelProjection findModelProjectionById(Long id) {\r\n        return this.carModelRepository.findCarModelProjectionById(id).orElseThrow(\r\n                () -> new NotFoundException(\r\n                        ApiStatus.NOT_FOUND.getCode(),\r\n                        ApiStatus.NOT_FOUND.getMessage()\r\n                )\r\n        );\r\n    }\r\n    @Override\r\n    public long countModelByStatus(StatusEnum statusEnum) {\r\n\r\n        return this.carModelRepository.countCarModelByStatus(statusEnum);\r\n    }\r\n\r\n    @Override\r\n    public List<CarModelProjection> findCarModelProjectionByModelContainingIgnoreCase(String model, Pagination pagination) {\r\n        Page<CarModelProjection> modelProjections = this.carModelRepository.findCarModelProjectionByModelContainingIgnoreCase(\r\n                model, PageRequest.of(pagination.getPage()-1, pagination.getSize())\r\n        );\r\n        pagination.setTotalCounts(modelProjections.getTotalElements());\r\n        return modelProjections.getContent() ;\r\n    }\r\n\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/service/impl/CarModelServiceImpl.java b/src/main/java/com/example/service/impl/CarModelServiceImpl.java
+--- a/src/main/java/com/example/service/impl/CarModelServiceImpl.java	(revision a8d4162ffbb18cc8c3fcdc932b841bb97f514551)
++++ b/src/main/java/com/example/service/impl/CarModelServiceImpl.java	(date 1683136986851)
+@@ -55,7 +55,7 @@
+                         ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage()));
+         try{
+             if(!ObjectUtils.isEmpty(carModel)){
+-                modelToUpdate.setModel(carModel.getModel());
++//                modelToUpdate.setModel(carModel.getModel());
+             //    modelToUpdate.setName(carModel.getName());
+ //                List<Car> carList = new ArrayList<>();
+ //                if(!ObjectUtils.isEmpty(carModel.getCarModel())){
+Index: target/classes/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\nspring.datasource.url=jdbc:mysql://localhost:3307/DB_CONCEPT_II\r\nspring.datasource.username=up_user\r\nspring.datasource.password=up_password\r\nspring.jpa.show-sql=true\r\n#spring.jpa.hibernate.ddl-auto=create-drop\r\nspring.jpa.hibernate.ddl-auto=update\r\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect\r\nspring.jpa.properties.hibernate.dialect.storage_engine=innodb\r\nspring.sql.init.mode=never\r\n# swagger-ui custom path\r\nspringdoc.swagger-ui.path=/swagger-ui.html\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/target/classes/application.properties b/target/classes/application.properties
+--- a/target/classes/application.properties	(revision a8d4162ffbb18cc8c3fcdc932b841bb97f514551)
++++ b/target/classes/application.properties	(date 1683201312901)
+@@ -1,16 +1,14 @@
+ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.datasource.url=jdbc:mysql://localhost:3307/DB_CONCEPT_II
+-spring.datasource.username=up_user
+-spring.datasource.password=up_password
++spring.datasource.url=jdbc:mysql://localhost:3307/phalleng_spring
++spring.datasource.username=phalleng
++spring.datasource.password=password@123
+ spring.jpa.show-sql=true
+-#spring.jpa.hibernate.ddl-auto=create-drop
++# spring.jpa.hibernate.ddl-auto=create-drop
+ spring.jpa.hibernate.ddl-auto=update
+-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
+-spring.jpa.properties.hibernate.dialect.storage_engine=innodb
++#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
++#spring.jpa.properties.hibernate.dialect.storage_engine=innodb
+ spring.sql.init.mode=never
+ # swagger-ui custom path
+ springdoc.swagger-ui.path=/swagger-ui.html
+ 
+ 
+-
+-

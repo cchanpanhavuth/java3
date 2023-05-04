@@ -2,10 +2,12 @@ package com.example.controller;
 
 import com.example.configuration.exceptions.TranscationException;
 import com.example.entity.CarFeatures;
+import com.example.entity.Customer;
 import com.example.entity.enums.StatusEnum;
 import com.example.entity.projection.CarFeaturesProjection;
 import com.example.entity.request.CarFeaturesFilter;
 import com.example.entity.request.CarFeaturesReq;
+import com.example.entity.request.CustomerReq;
 import com.example.entity.response.ApiResponse;
 import com.example.entity.response.ApiStatus;
 import com.example.entity.response.Pagination;
@@ -18,8 +20,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +37,7 @@ public class CarFeaturesRestController {
         this.carFeaturesService = carFeaturesService;
     }
 
-    @GetMapping("/featureDescription/{featureDescription}")
+    @GetMapping("/{featureDescription}")
     public ApiResponse findByFeatureDescription(@PathVariable String featureDescription){
         CarFeaturesProjection feat = this.carFeaturesService.findCarFeaturesByFeatureDescription(featureDescription);
         if(feat != null){
@@ -46,42 +50,11 @@ public class CarFeaturesRestController {
         return new ApiResponse<>(ApiStatus.NOT_FOUND.getCode(), ApiStatus.NOT_FOUND.getMessage());
     }
 
-    @GetMapping("/all")
-    public Map<String, Object> findAllFeatures(Pagination pagination){
-        List<CarFeaturesProjection> cfeat = this.carFeaturesService.findCarFeaturesProjectionAll(pagination);
-        Map<String, Object> map = new HashMap<>();
-        map.put("data", cfeat);
-        map.put("pagination", pagination);
-        return map;
-    }
-
-//    @GetMapping
-//    public List<CarFeaturesProjection> findByFeatureDescription(){
-//        return this.carFeaturesService.findAllCarFeatures();
-//    }
-//
-////    @PostMapping
-////    public CarFeatures add(@RequestBody CarFeatures carFeatures){
-////        return this.carFeaturesService.add(carFeatures);
-////    }
 
     @PostMapping
     public ApiResponse add(@RequestBody CarFeaturesReq req){
-        // TODO: Prepare User Object
         CarFeatures feature = new CarFeatures();
         BeanUtils.copyProperties(req, feature);
-
-        // TODO: Prepare List of Address Object
-//        List<Car> carsObjectList = new ArrayList<>();
-//        if(!ObjectUtils.isEmpty(req.getCars())){
-//            for(CarAddRequest carAddReq : req.getCars()){
-//                Car carObject = new Car();
-//                BeanUtils.copyProperties(carAddReq, carObject);
-//                addressObject.setUser(user);
-//                addressesObjectList.add(addressObject);
-//            }
-//            user.setAddresses(addressesObjectList);
-//        }
         CarFeatures insertedFeature = carFeaturesService.add(feature);
         CarFeaturesProjection featuresProjection = this.carFeaturesService.findFeatureProjectionById(insertedFeature.getId());
         return new ApiResponse<>(
@@ -92,24 +65,11 @@ public class CarFeaturesRestController {
 
     @PutMapping("/{id}")
     public ApiResponse update(@PathVariable Long id , @RequestBody CarFeaturesReq req){
-        // TODO: Prepare User Object
         CarFeatures feat = new CarFeatures();
         CarFeaturesProjection featuresProjection = null;
         try{
             BeanUtils.copyProperties(req, feat);
             feat.setId(id);
-            // TODO: Prepare List of Address Object
-//            List<Address> addressesObjectList = new ArrayList<>();
-//            if(!ObjectUtils.isEmpty(req.getAddress())){
-//                for(AddressReq addressAddReq : req.getAddress()){
-//                    Address addressObject = new Address();
-//                    BeanUtils.copyProperties(addressAddReq, addressObject);
-//                    addressesObjectList.add(addressObject);
-//                    addressObject.setUser(user);
-//                }
-//                user.setAddresses(addressesObjectList);
-//            }
-
             CarFeatures updatedFeat = carFeaturesService.update(feat);
             featuresProjection = this.carFeaturesService.findFeatureProjectionById(updatedFeat.getId());
         }catch (Exception e){
@@ -123,7 +83,7 @@ public class CarFeaturesRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse deleteUserById(@PathVariable Long id){
+    public ApiResponse deleteFeatureById(@PathVariable Long id){
         this.carFeaturesService.deleteById(id);
         return new ApiResponse(ApiStatus.SUC_DELETED.getCode(), ApiStatus.SUC_DELETED.getMessage());
     }

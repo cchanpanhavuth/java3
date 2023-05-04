@@ -13,9 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    Optional<CustomerProjection> findByCustomerFirstName(String firstName);
-    Optional<CustomerProjection> findByCustomerLastName(String lastName);
-    List<CustomerProjection> findAllCustomerBy();
-
+    Optional<CustomerProjection> findCustomerById(Long id);
     Page<CustomerProjection> findAllCustomerProjectionBy(Pageable pageable);
+
 }

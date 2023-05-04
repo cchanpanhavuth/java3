@@ -17,7 +17,4 @@ public class Inventory extends BaseEntity {
     private Integer quantity;
     private Double importPrice;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "car_id", referencedColumnName = "id")
-    private Car car;
 }

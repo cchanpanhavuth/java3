@@ -14,7 +14,10 @@ import java.util.Optional;
 
 @Repository
 public interface OrderCarsRepository extends JpaRepository<OrderCars, Long> {
-    Optional<OrderCarProjection> findByOrderCarPrice(Double price);
+    Optional<OrderCarProjection> findByOrderCarId(Long id);
+    Optional<OrderCarProjection> findByCustomerId(Long id);
+    Optional<OrderCarProjection> findByStaffId(Long id);
+
     List<OrderCarProjection> findAllOrderCarBy();
 
     Page<OrderCarProjection> findAllOrderCarProjectionBy(Pageable pageable);

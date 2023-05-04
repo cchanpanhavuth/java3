@@ -13,8 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
-    Optional<InventoryProjection> findByImportPrice(Double price);
+    Optional<InventoryProjection> findInventorById(Long id);
     List<InventoryProjection> findAllInventoryBy();
-
     Page<InventoryProjection> findAllInventoryProjectionBy(Pageable pageable);
 }

@@ -12,7 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>{
-    Optional<OrderCarDetailProjection> findByUnitPrice(Double price);
+    Optional<OrderCarDetailProjection> findByOrderId(Long id);
+    Optional<OrderCarDetailProjection> findByCarId(Long id);
     List<OrderCarDetailProjection> findAllOrderDetailBy();
 
     Page<OrderCarDetailProjection> findAllOrderDetailProjectionBy(Pageable pageable);

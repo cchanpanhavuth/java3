@@ -55,16 +55,6 @@ public class CarFeaturesRestController {
     public ApiResponse add(@RequestBody CarFeaturesReq req){
         CarFeatures feature = new CarFeatures();
         BeanUtils.copyProperties(req, feature);
-        List<Customer> customerObjectList = new ArrayList<>();
-//        if(!ObjectUtils.isEmpty(req.getCustomers())){
-//            for(CustomerReq customerAddReq : req.getCustomers()){
-//                Customer customerObject = new Customer();
-//                BeanUtils.copyProperties(customerAddReq, customerObject);
-//                customerObject.setCarFeatures(feature);
-//                customerObjectList.add(customerObject);
-//            }
-//            feature.setCustomers(customerObjectList);
-//        }
         CarFeatures insertedFeature = carFeaturesService.add(feature);
         CarFeaturesProjection featuresProjection = this.carFeaturesService.findFeatureProjectionById(insertedFeature.getId());
         return new ApiResponse<>(
@@ -80,17 +70,6 @@ public class CarFeaturesRestController {
         try{
             BeanUtils.copyProperties(req, feat);
             feat.setId(id);
-//        List<Customer> customerObjectList = new ArrayList<>();
-//        if(!ObjectUtils.isEmpty(req.getCustomers())){
-//            for(CustomerReq customerAddReq : req.getCustomers()){
-//                Customer customerObject = new Customer();
-//                BeanUtils.copyProperties(customerAddReq, customerObject);
-//                customerObject.setCarFeatures(feature);
-//                customerObjectList.add(customerObject);
-//            }
-//            feature.setCustomers(customerObjectList);
-//        }
-
             CarFeatures updatedFeat = carFeaturesService.update(feat);
             featuresProjection = this.carFeaturesService.findFeatureProjectionById(updatedFeat.getId());
         }catch (Exception e){

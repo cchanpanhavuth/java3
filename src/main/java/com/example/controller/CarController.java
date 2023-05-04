@@ -34,9 +34,9 @@ public class CarController {
     private CategoryService categoryService;
     private CarModelService carModelService;
     private InventoryService inventoryService;
-//    private BrandService brandService;
-//    private ManufacturerLocationService manufacturerLocationService;
-//    private BranchService branchService;
+    private BrandService brandService;
+    private ManufacturerLocationService manufacturerLocationService;
+    private BranchService branchService;
     private CarFeaturesService carFeaturesService;
 
     @Autowired
@@ -45,18 +45,18 @@ public class CarController {
             CategoryService categoryService,
             CarModelService carModelService,
             InventoryService inventoryService,
-//            BrandService brandService,
-//            ManufacturerLocationService manufacturerLocationService,
-//            BranchService branchService,
+            BrandService brandService,
+            ManufacturerLocationService manufacturerLocationService,
+            BranchService branchService,
             CarFeaturesService carFeaturesService
     ){
         this.carService = carService;
         this.categoryService = categoryService;
         this.carModelService = carModelService;
         this.inventoryService = inventoryService;
-//        this.branchService = branchService;
-//        this.manufacturerLocationService = manufacturerLocationService;
-//        this.brandService = brandService;
+        this.branchService = branchService;
+        this.manufacturerLocationService = manufacturerLocationService;
+        this.brandService = brandService;
         this.carFeaturesService = carFeaturesService;
     }
 
@@ -134,11 +134,11 @@ public class CarController {
         CarModel model = this.carModelService.findById(req.getModelId());
         CarFeatures feature = this.carFeaturesService.findById(req.getFeatureId());
         Inventory inventory = this.inventoryService.findById(req.getInventoryId());
-//        Brand brand = this.brandService.findById(req.getBrandId());
-//        Branch branch = this.branchService.findById(req.getBranchId());
-//        ManufacturerLocation local = this.manufacturerLocationService.findById(req.getManufactureId());
+        Brand brand = this.brandService.findById(req.getBrandId());
+        Branch branch = this.branchService.findById(req.getBranchId());
+        ManufacturerLocation local = this.manufacturerLocationService.findById(req.getManufactureId());
         if(category == null || model == null || feature==null
-              //  || inventory == null || brand == null || branch == null || local ==null
+                || inventory == null || brand == null || branch == null || local ==null
         ){
             System.out.println("Field is not found!");
             return null;
@@ -149,16 +149,16 @@ public class CarController {
         car.setCategoryId(category);
         car.setModelId(model);
         car.setFeaturesId(feature);
-//        car.setInventoryId(inventory);
-//        car.setBrandId(brand);
-//        car.setBranchId(branch);
-//        car.setManufactureId(local);
+        car.setInventoryId(inventory);
+        car.setBrandId(brand);
+        car.setBranchId(branch);
+        car.setManufactureId(local);
         Car insertedcar = carService.add(car);
         CarProjection carProjection = this.carService.findCarProjectionById(insertedcar.getId());
         return new ApiResponse<>(
                 ApiStatus.SUC_CREATED.getCode(),
                 ApiStatus.SUC_CREATED.getMessage()
-                /*,featuresProjection*/ );
+                /*,carProjection*/ );
     }
 
     @PutMapping("/{id}")

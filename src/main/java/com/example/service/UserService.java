@@ -15,6 +15,7 @@ public interface UserService {
 
     User findById(Long id);
 
+
     UserProjection findUserProjectionById(Long id);
     List<UserProjection> findUserProjectionByUsernameContainingIgnoreCase(String username, Pagination pagination);
 

@@ -40,12 +40,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+
     public OrderDetail update(OrderDetailUpdate req) {
         OrderDetail orderDetail = orderDetailRepository.findById(req.getId())
                 .orElseThrow(() -> new ResourceAccessException("Customer could not found!!"));
         BeanUtils.copyProperties(req, orderDetail);
         return orderDetail;
-    }
+
 
     @Override
     public boolean deleteById(Long id) {

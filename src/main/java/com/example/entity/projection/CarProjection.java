@@ -1,15 +1,20 @@
 package com.example.entity.projection;
 
-import com.example.entity.Inventory;
+import com.example.entity.*;
 
 public interface CarProjection {
 
 
     Long getId();
     Double getPrice();
-    //BrandProjection getBrand_name();
-    //BranchProjection getBranch_name();
-    //InventoryProjection getInventory();
-    CarFeaturesProjection getFeatures_id();
+    String getYear();
+    String getColor();
+    CategoryProjection getCategoryId();
+    CarFeaturesProjection getFeaturesId();
+    CarModelProjection getModelId();
+    //InventoryProjection getInventoryId();
+    //BrandProjection getBrandId();
+    //BranchProjection getBranchId();
+    //ManufacturerLocationProjection getManufactureId();
 
 }

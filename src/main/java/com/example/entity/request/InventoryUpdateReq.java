@@ -7,5 +7,4 @@ public class InventoryUpdateReq {
     private Long id;
     private Integer quantity;
     private Double importPrice;
-    private Long carID;
 }

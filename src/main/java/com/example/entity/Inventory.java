@@ -18,3 +18,5 @@ public class Inventory extends BaseEntity {
     private Double importPrice;
 
 }
+
+
